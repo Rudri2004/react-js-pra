@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import {
     addUser,
     updateUser
@@ -9,62 +10,87 @@ import useUsers from "../hooks/useuser";
 import "../App.css";
 
 
-function UserForm({ editingUser, onCancelEdit }) {
+function UserForm({
+    editingUser,
+    onCancelEdit
+}) {
 
     const { dispatch } = useUsers();
 
+
+
     const [name, setName] = useState("");
+
     const [email, setEmail] = useState("");
+
     const [username, setUsername] = useState("");
+
     const [phone, setPhone] = useState("");
 
     const [error, setError] = useState("");
+
     const [success, setSuccess] = useState("");
+
     const [loading, setLoading] = useState(false);
 
 
-    // =========================================
-    // LOAD USER DATA WHEN EDITING
-    // =========================================
 
     useEffect(() => {
 
         if (editingUser) {
 
-            setName(editingUser.name || "");
-            setEmail(editingUser.email || "");
-            setUsername(editingUser.username || "");
-            setPhone(editingUser.phone || "");
+            const fullName =
+                `${editingUser.firstName || ""} ${editingUser.lastName || ""}`
+                    .trim();
+
+
+            setName(fullName);
+
+
+            setEmail(
+                editingUser.email || ""
+            );
+
+
+            setPhone(
+                editingUser.phone || ""
+            );
+
+
+            setUsername(
+                editingUser.username ||
+                `${editingUser.firstName || "User"}_${editingUser.id}`
+            );
+
 
             setError("");
+
             setSuccess("");
         }
 
     }, [editingUser]);
 
 
-    // =========================================
-    // FORM SUBMIT
-    // =========================================
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
+
         setError("");
+
         setSuccess("");
 
-
-        // Validation
 
         if (
             !name.trim() ||
             !email.trim() ||
-            !username.trim() ||
             !phone.trim()
         ) {
 
-            setError("All fields are required");
+            setError(
+                "Name, email and phone are required"
+            );
 
             return;
         }
@@ -74,8 +100,8 @@ function UserForm({ editingUser, onCancelEdit }) {
 
             setLoading(true);
 
-
-            const token = localStorage.getItem("token");
+            const token =
+                localStorage.getItem("token");
 
 
             if (!token) {
@@ -86,39 +112,57 @@ function UserForm({ editingUser, onCancelEdit }) {
 
                 return;
             }
+            const nameParts =
+                name.trim().split(" ");
 
+
+            const firstName =
+                nameParts[0];
+
+
+            const lastName =
+                nameParts
+                    .slice(1)
+                    .join(" ");
 
             const userData = {
 
-                name: name.trim(),
+                firstName: firstName,
+
+                lastName: lastName,
 
                 email: email.trim(),
 
-                username: username.trim(),
-
-                phone: phone.trim(),
+                phone:`+91 ${phone.trim()}`,
 
             };
 
 
-            // =====================================
-            // EDIT USER
-            // =====================================
-
             if (editingUser) {
 
-                const updatedUser = await updateUser(
-                    editingUser.id,
-                    userData,
-                    token
-                );
+                const updatedUser =
+                    await updateUser(
+                        editingUser.id,
+                        userData,
+                        token
+                    );
 
+
+                const finalUser = {
+
+                    ...updatedUser,
+
+                    username:
+                        editingUser.username ||
+                        `${firstName}_${editingUser.id}`,
+
+                }
 
                 dispatch({
 
                     type: "UPDATE_USER_SUCCESS",
 
-                    payload: updatedUser,
+                    payload: finalUser,
 
                 });
 
@@ -126,27 +170,38 @@ function UserForm({ editingUser, onCancelEdit }) {
                 setSuccess(
                     "User updated successfully!"
                 );
+                setName("");
+                setEmail("");
+                setUsername("");
+                setPhone("");
+                onCancelEdit();
 
             }
 
-
-            // =====================================
-            // ADD USER
-            // =====================================
-
             else {
+                const newUser =
+                    await addUser(
+                        userData,
+                        token
+                    );
 
-                const newUser = await addUser(
-                    userData,
-                    token
-                );
-
-
+                const generatedUsername =
+                    `${firstName}_${newUser.id}`;
+                const finalUser =
+                    await updateUser(
+                        newUser.id,
+                        {
+                            ...newUser,
+                            username:
+                                generatedUsername,
+                        },
+                        token
+                    );
                 dispatch({
 
                     type: "ADD_USER_SUCCESS",
 
-                    payload: newUser,
+                    payload: finalUser,
 
                 });
 
@@ -155,39 +210,36 @@ function UserForm({ editingUser, onCancelEdit }) {
                     "User added successfully!"
                 );
 
-            }
 
 
-            // Clear form
 
-            setName("");
-            setEmail("");
-            setUsername("");
-            setPhone("");
+                setName("");
 
+                setEmail("");
 
-            // Exit edit mode
+                setUsername("");
 
-            if (editingUser) {
-
-                onCancelEdit();
+                setPhone("");
 
             }
 
+        }
 
-        } catch (error) {
+        catch (error) {
 
-            setError(error.message);
+            setError(
+                error.message
+            );
 
-        } finally {
+        }
+
+        finally {
 
             setLoading(false);
 
         }
 
-    };
-
-
+    }
     return (
 
         <div className="add-user-page">
@@ -195,7 +247,9 @@ function UserForm({ editingUser, onCancelEdit }) {
             <div className="add-user-container">
 
 
-                {/* Header */}
+                {/* =================================
+                    HEADER
+                ================================= */}
 
                 <div className="add-user-header">
 
@@ -203,24 +257,25 @@ function UserForm({ editingUser, onCancelEdit }) {
 
                         {editingUser
                             ? "Edit User"
-                            : "Add User"
-                        }
+                            : "Add User"}
 
                     </h1>
+
 
                     <p>
 
                         {editingUser
                             ? "Update user information"
-                            : "Add a new user to the system"
-                        }
+                            : "Add a new user to the system"}
 
                     </p>
 
                 </div>
 
 
-                {/* Form */}
+                {/* =================================
+                    FORM
+                ================================= */}
 
                 <form
                     className="add-user-form"
@@ -228,7 +283,7 @@ function UserForm({ editingUser, onCancelEdit }) {
                 >
 
 
-                    {/* Name */}
+                    {/* NAME */}
 
                     <div className="form-group">
 
@@ -236,19 +291,26 @@ function UserForm({ editingUser, onCancelEdit }) {
                             Name
                         </label>
 
+
                         <input
                             type="text"
+
                             value={name}
+
                             onChange={(e) =>
-                                setName(e.target.value)
+                                setName(
+                                    e.target.value
+                                )
                             }
-                            placeholder="Enter name"
+
+                            placeholder="Enter full name"
                         />
 
                     </div>
 
 
-                    {/* Email */}
+
+                    {/* EMAIL */}
 
                     <div className="form-group">
 
@@ -256,19 +318,26 @@ function UserForm({ editingUser, onCancelEdit }) {
                             Email
                         </label>
 
+
                         <input
                             type="email"
+
                             value={email}
+
                             onChange={(e) =>
-                                setEmail(e.target.value)
+                                setEmail(
+                                    e.target.value
+                                )
                             }
+
                             placeholder="Enter email"
                         />
 
                     </div>
 
 
-                    {/* Username */}
+
+                    {/* USERNAME */}
 
                     <div className="form-group">
 
@@ -276,19 +345,31 @@ function UserForm({ editingUser, onCancelEdit }) {
                             Username
                         </label>
 
+
                         <input
                             type="text"
-                            value={username}
-                            onChange={(e) =>
-                                setUsername(e.target.value)
+
+                            value={
+                                editingUser
+                                    ? username
+                                    : ""
                             }
-                            placeholder="Enter username"
+
+                            readOnly
+
+                            placeholder={
+                                editingUser
+                                    ? "Username"
+                                    : "Automatically generated"
+                            }
+
                         />
 
                     </div>
 
 
-                    {/* Phone */}
+
+                    {/* PHONE */}
 
                     <div className="form-group">
 
@@ -296,19 +377,27 @@ function UserForm({ editingUser, onCancelEdit }) {
                             Phone
                         </label>
 
+
                         <input
                             type="text"
+
                             value={phone}
-                            onChange={(e) =>
-                                setPhone(e.target.value)
-                            }
-                            placeholder="Enter phone number"
-                        />
+                            
+                         onChange={(e) => {
+                const value = e.target.value
+                    .replace(/\D/g, "")
+                    .slice(0,10);
+
+                setPhone(value);
+            }}
+            placeholder="Enter phone number"
+        />
 
                     </div>
 
 
-                    {/* Error */}
+
+                    {/* ERROR */}
 
                     {error && (
 
@@ -321,7 +410,8 @@ function UserForm({ editingUser, onCancelEdit }) {
                     )}
 
 
-                    {/* Success */}
+
+                    {/* SUCCESS */}
 
                     {success && (
 
@@ -334,13 +424,17 @@ function UserForm({ editingUser, onCancelEdit }) {
                     )}
 
 
-                    {/* Buttons */}
+
+                    {/* BUTTONS */}
 
                     <div className="form-buttons">
 
+
                         <button
                             type="submit"
+
                             className="add-user-button"
+
                             disabled={loading}
                         >
 
@@ -359,21 +453,29 @@ function UserForm({ editingUser, onCancelEdit }) {
                         </button>
 
 
-                        {/* Cancel */}
+
+                        {/* CANCEL */}
 
                         {editingUser && (
 
                             <button
                                 type="button"
+
                                 className="cancel-button"
-                                onClick={onCancelEdit}
+
+                                onClick={
+                                    onCancelEdit
+                                }
                             >
+
                                 Cancel
+
                             </button>
 
                         )}
 
                     </div>
+
 
                 </form>
 
@@ -382,6 +484,8 @@ function UserForm({ editingUser, onCancelEdit }) {
         </div>
 
     );
+
 }
+
 
 export default UserForm;

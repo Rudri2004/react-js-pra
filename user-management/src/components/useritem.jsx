@@ -1,5 +1,13 @@
 function UserItem({ user, onEdit, onDelete }) {
 
+    // Combine first name and last name
+    const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+
+    // Create username using first name + user id
+    const username = user.firstName
+        ? `${user.firstName}_${user.id}`
+        : "N/A";
+
     return (
 
         <div className="user-card">
@@ -11,8 +19,8 @@ function UserItem({ user, onEdit, onDelete }) {
 
                 <div className="user-avatar">
 
-                    {user.name
-                        ? user.name
+                    {user.firstName
+                        ? user.firstName
                             .charAt(0)
                             .toUpperCase()
                         : "U"
@@ -24,7 +32,7 @@ function UserItem({ user, onEdit, onDelete }) {
                 <div className="user-main-info">
 
                     <h3>
-                        {user.name || "No Name"}
+                        {fullName || "No Name"}
                     </h3>
 
                     <span className="user-id">
@@ -41,6 +49,8 @@ function UserItem({ user, onEdit, onDelete }) {
             <div className="user-details">
 
 
+                {/* Email */}
+
                 <div className="detail-row">
 
                     <span className="detail-label">
@@ -54,6 +64,8 @@ function UserItem({ user, onEdit, onDelete }) {
                 </div>
 
 
+                {/* Username */}
+
                 <div className="detail-row">
 
                     <span className="detail-label">
@@ -61,11 +73,13 @@ function UserItem({ user, onEdit, onDelete }) {
                     </span>
 
                     <span className="detail-value">
-                        {user.username || "N/A"}
+                        {username}
                     </span>
 
                 </div>
 
+
+                {/* Phone */}
 
                 <div className="detail-row">
 

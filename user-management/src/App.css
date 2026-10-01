@@ -2,18 +2,12 @@
 .login-page {
     min-height: 100vh;
     background-color: #f3f4f6;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     padding: 20px;
 }
 
-
-/* ================================
-   Login Card
-================================ */
 
 .login-card {
     width: 400px;
@@ -28,15 +22,11 @@
 }
 
 
-/* ================================
-   Header
-================================ */
 
 .login-header {
     text-align: center;
-
     margin-bottom: 25px;
-}
+} 
 
 .login-header h1 {
     margin: 0 0 10px;
@@ -55,9 +45,6 @@
 }
 
 
-/* ================================
-   Form Group
-================================ */
 
 .form-group {
     margin-bottom: 18px;
@@ -104,11 +91,6 @@
     border-color: #4f46e5;
 }
 
-
-/* ================================
-   Error Message
-================================ */
-
 .error-message {
     background-color: #fee2e2;
 
@@ -124,9 +106,6 @@
 }
 
 
-/* ================================
-   Login Button
-================================ */
 
 .login-button {
     width: 100%;
@@ -179,10 +158,6 @@
 
     animation: successSlide 0.3s ease;
 }
-/* =========================================
-   USERS PAGE
-========================================= */
-
 .users-page {
     min-height: 100vh;
     padding: 40px 20px;
@@ -194,11 +169,6 @@
     max-width: 1100px;
     margin: 0 auto;
 }
-
-
-/* =========================================
-   USERS HEADER
-========================================= */
 
 .users-header {
     display: flex;
@@ -232,20 +202,12 @@
 }
 
 
-/* =========================================
-   USERS GRID
-========================================= */
-
 .users-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
-
-/* =========================================
-   USER CARD
-========================================= */
 
 .user-card {
     padding: 24px;
@@ -265,10 +227,6 @@
         0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-
-/* =========================================
-   USER CARD TOP
-========================================= */
 
 .user-card-top {
     display: flex;
@@ -325,9 +283,6 @@
 }
 
 
-/* =========================================
-   USER DETAILS
-========================================= */
 
 .user-details {
     padding: 18px 0;
@@ -346,9 +301,6 @@
     margin-bottom: 0;
 }
 
-
-/* Labels */
-
 .detail-label {
     color: #64748b;
 
@@ -359,8 +311,6 @@
 }
 
 
-/* Values */
-
 .detail-value {
     color: #334155;
 
@@ -370,9 +320,6 @@
 }
 
 
-/* =========================================
-   ACTION BUTTONS
-========================================= */
 
 .user-actions {
     display: flex;
@@ -549,73 +496,6 @@
 
 }
 
-
-/* =========================================
-   TABLET
-========================================= */
-
-@media (max-width: 900px) {
-
-    .users-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 600px) {
-
-    .users-page {
-        padding: 25px 15px;
-    }
-
-    .users-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .users-header h1 {
-        font-size: 26px;
-    }
-
-    .users-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .user-card {
-        padding: 20px;
-    }
-
-}
-
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media (max-width: 400px) {
-
-    .users-page {
-        padding: 20px 10px;
-    }
-
-    .user-actions {
-        flex-direction: column;
-    }
-
-    .user-actions button {
-        width: 100%;
-    }
-
-}
-/* =========================================
-   ADD USER PAGE
-========================================= */
 
 .add-user-page {
     padding: 40px 20px 20px;
@@ -806,6 +686,203 @@
     .form-error,
     .form-success {
         grid-column: auto;
+    }
+
+}
+.users-title {
+    min-width: 220px;
+}
+
+.users-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* Search Box */
+
+.search-box {
+    width: 280px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe3f0;
+
+    border-radius: 22px;
+
+    padding: 0 12px;
+
+    box-sizing: border-box;
+
+    transition: 0.2s ease;
+}
+
+
+/* Search Box Focus */
+
+.search-box:focus-within {
+    border-color: #4f46e5;
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+
+/* Search Icon */
+
+.search-icon {
+    font-size: 15px;
+
+    margin-right: 8px;
+
+    color: #64748b;
+}
+
+
+/* Search Input */
+
+.search-box input {
+    width: 100%;
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #334155;
+
+    font-size: 13px;
+}
+
+.search-box input::placeholder {
+    color: #94a3b8;
+}
+
+
+/* Clear X */
+
+.clear-search {
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    font-size: 16px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+.clear-search:hover {
+    background: #e2e8f0;
+
+    color: #334155;
+}
+
+
+/* Search Button */
+
+.search-button {
+    height: 42px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 22px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.search-button:hover {
+    background: #4338ca;
+
+    transform: translateY(-1px);
+}
+
+.search-button:active {
+    transform: translateY(0);
+}
+
+
+/* Clear Search Result Button */
+
+.clear-search-result {
+    margin-top: 20px;
+
+    padding: 10px 18px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.clear-search-result:hover {
+    background: #4338ca;
+}
+
+
+/* =========================================
+   SEARCH RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .users-header {
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .users-header-right {
+        flex-wrap: wrap;
+
+        justify-content: flex-end;
+    }
+
+    .search-box {
+        width: 240px;
     }
 
 }

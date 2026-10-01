@@ -8,12 +8,6 @@ const initialState = {
 export const userReducer = (state, action) => {
 
     switch (action.type) {
-
-
-        // =========================================
-        // GET USERS - START
-        // =========================================
-
         case "FETCH_USERS_START":
 
             return {
@@ -21,11 +15,6 @@ export const userReducer = (state, action) => {
                 loading: true,
                 error: null,
             };
-
-
-        // =========================================
-        // GET USERS - SUCCESS
-        // =========================================
 
         case "FETCH_USERS_SUCCESS":
 
@@ -37,10 +26,6 @@ export const userReducer = (state, action) => {
             };
 
 
-        // =========================================
-        // GET USERS - ERROR
-        // =========================================
-
         case "FETCH_USERS_ERROR":
 
             return {
@@ -49,10 +34,6 @@ export const userReducer = (state, action) => {
                 error: action.payload,
             };
 
-
-        // =========================================
-        // ADD USER
-        // =========================================
 
         case "ADD_USER_SUCCESS":
 
@@ -67,11 +48,6 @@ export const userReducer = (state, action) => {
                 error: null,
             };
 
-
-        // =========================================
-        // UPDATE USER
-        // =========================================
-
         case "UPDATE_USER_SUCCESS":
 
             return {
@@ -85,11 +61,6 @@ export const userReducer = (state, action) => {
 
                 error: null,
             };
-
-
-        // =========================================
-        // DELETE USER
-        // =========================================
 
         case "DELETE_USER_SUCCESS":
 

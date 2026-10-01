@@ -1,9 +1,6 @@
 const BASE_URL = "http://localhost:9001";
 
 
-// =========================================
-// LOGIN
-// =========================================
 
 export const loginUser = async (email, password) => {
 
@@ -12,7 +9,7 @@ export const loginUser = async (email, password) => {
 
         headers: {
             "Content-Type": "application/json",
-        },
+        }, 
 
         body: JSON.stringify({
             email,
@@ -22,7 +19,7 @@ export const loginUser = async (email, password) => {
 
     const data = await response.json();
 
-    if (!response.ok) {
+    if (!response.ok) {  
         throw new Error(
             data.message || "Login failed"
         );
@@ -30,11 +27,6 @@ export const loginUser = async (email, password) => {
 
     return data;
 };
-
-
-// =========================================
-// GET USERS
-// =========================================
 
 export const getUsers = async (token) => {
 
@@ -59,11 +51,6 @@ export const getUsers = async (token) => {
 
     return data;
 };
-
-
-// =========================================
-// ADD USER
-// =========================================
 
 export const addUser = async (user, token) => {
 
@@ -92,11 +79,6 @@ export const addUser = async (user, token) => {
     return data;
 };
 
-
-// =========================================
-// UPDATE USER
-// =========================================
-
 export const updateUser = async (id, user, token) => {
 
     const response = await fetch(
@@ -124,11 +106,6 @@ export const updateUser = async (id, user, token) => {
     return data;
 };
 
-
-// =========================================
-// DELETE USER
-// =========================================
-
 export const deleteUser = async (id, token) => {
 
     const response = await fetch(
@@ -152,4 +129,4 @@ export const deleteUser = async (id, token) => {
     }
 
     return id;
-};
+}; 

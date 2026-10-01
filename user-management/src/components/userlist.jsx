@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUsers } from "../fileservice/userapi";
 import useUsers from "../hooks/useuser";
 import UserItem from "./useritem";
@@ -8,10 +8,12 @@ function UserList({ onEdit, onDelete }) {
 
     const { state, dispatch } = useUsers();
 
+    // Search input value
+    const [searchText, setSearchText] = useState("");
 
-    // =========================================
-    // GET USERS
-    // =========================================
+    // Actual search value
+    const [searchQuery, setSearchQuery] = useState("");
+
 
     useEffect(() => {
 
@@ -19,9 +21,7 @@ function UserList({ onEdit, onDelete }) {
 
             const token = localStorage.getItem("token");
 
-
             // Check token
-
             if (!token) {
 
                 dispatch({
@@ -32,33 +32,24 @@ function UserList({ onEdit, onDelete }) {
                 return;
             }
 
-
             try {
-
-                // Loading
 
                 dispatch({
                     type: "FETCH_USERS_START",
                 });
 
-
                 // API call
-
                 const data = await getUsers(token);
 
-
                 // Success
-
                 dispatch({
                     type: "FETCH_USERS_SUCCESS",
                     payload: data,
                 });
 
-
             } catch (error) {
 
                 // Error
-
                 dispatch({
                     type: "FETCH_USERS_ERROR",
                     payload: error.message,
@@ -68,10 +59,46 @@ function UserList({ onEdit, onDelete }) {
 
         };
 
-
         fetchUsers();
 
     }, [dispatch]);
+
+
+    // =========================================
+    // SEARCH FUNCTION
+    // =========================================
+
+    const handleSearch = () => {
+        setSearchQuery(searchText.trim());
+    };
+
+
+    // =========================================
+    // CLEAR SEARCH
+    // =========================================
+
+    const handleClearSearch = () => {
+        setSearchText("");
+        setSearchQuery("");
+    };
+
+
+    // =========================================
+    // FILTER USERS
+    // =========================================
+
+    const filteredUsers = state.users.filter((user) => {
+
+        const query = searchQuery.toLowerCase();
+
+        return (
+            (user.name || "").toLowerCase().includes(query) ||
+            (user.email || "").toLowerCase().includes(query) ||
+            (user.username || "").toLowerCase().includes(query) ||
+            (user.phone || "").toLowerCase().includes(query)
+        );
+
+    });
 
 
     // =========================================
@@ -145,11 +172,13 @@ function UserList({ onEdit, onDelete }) {
             <div className="users-container">
 
 
-                {/* Header */}
+                {/* =================================
+                    HEADER
+                ================================= */}
 
                 <div className="users-header">
 
-                    <div>
+                    <div className="users-title">
 
                         <h1>
                             User Management
@@ -162,20 +191,64 @@ function UserList({ onEdit, onDelete }) {
                     </div>
 
 
-                    {/* User Count */}
+                    {/* =================================
+                        SEARCH + USER COUNT
+                    ================================= */}
 
-                    <span className="user-count">
+                    <div className="users-header-right">
 
-                        {state.users.length} Users
+                        <div className="search-box">
 
-                    </span>
+                            
+
+                            <input
+                                type="text"
+                                value={searchText}
+                                onChange={(e) =>
+                                    setSearchText(e.target.value)
+                                }
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        handleSearch();
+                                    }
+                                }}
+                                placeholder="Search users..."
+                            />
+
+                            {searchQuery && (
+                                <button
+                                    type="button"
+                                    className="clear-search"
+                                    onClick={handleClearSearch}
+                                >
+                                    ×
+                                </button>
+                            )}
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            className="search-button"
+                            onClick={handleSearch}
+                        >
+                             Search
+                        </button>
+
+
+                        <span className="user-count">
+                            {state.users.length} Users
+                        </span>
+
+                    </div>
 
                 </div>
 
 
-                {/* =====================================
+                {/* =================================
                     EMPTY STATE
-                ===================================== */}
+                ================================= */}
 
                 {state.users.length === 0 ? (
 
@@ -191,8 +264,33 @@ function UserList({ onEdit, onDelete }) {
 
                     </div>
 
-                ) : (
+                ) : filteredUsers.length === 0 ? (
 
+                    /* =================================
+                       NO SEARCH RESULTS
+                    ================================= */
+
+                    <div className="status-card">
+
+                        <h2>
+                            No Matching Users
+                        </h2>
+
+                        <p>
+                            No users found for "{searchQuery}".
+                        </p>
+
+                        <button
+                            type="button"
+                            className="clear-search-result"
+                            onClick={handleClearSearch}
+                        >
+                            Clear Search
+                        </button>
+
+                    </div>
+
+                ) : (
 
                     /* =================================
                        USER GRID
@@ -200,12 +298,11 @@ function UserList({ onEdit, onDelete }) {
 
                     <div className="users-grid">
 
-                        {state.users.map((user) => (
+                        {filteredUsers.map((user) => (
 
                             <UserItem
                                 key={user.id}
                                 user={user}
-
                                 onEdit={onEdit}
                                 onDelete={onDelete}
                             />

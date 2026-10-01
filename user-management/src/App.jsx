@@ -26,11 +26,6 @@ function AppContent() {
     const [editingUser, setEditingUser] =
         useState(null);
 
-
-    // =========================================
-    // LOGIN SUCCESS
-    // =========================================
-
     const handleLoginSuccess = () => {
 
         setIsLoggedIn(true);
@@ -44,11 +39,6 @@ function AppContent() {
         }, 3000);
     };
 
-
-    // =========================================
-    // EDIT USER
-    // =========================================
-
     const handleEdit = (user) => {
 
         setEditingUser(user);
@@ -59,22 +49,11 @@ function AppContent() {
         });
     };
 
-
-    // =========================================
-    // CANCEL EDIT
-    // =========================================
-
     const handleCancelEdit = () => {
 
         setEditingUser(null);
 
     };
-
-
-    // =========================================
-    // DELETE USER
-    // =========================================
-
     const handleDelete = async (id) => {
 
         const confirmDelete = window.confirm(
@@ -100,25 +79,15 @@ function AppContent() {
 
                 return;
             }
-
-
-            // Delete from API
-
             await deleteUser(
                 id,
                 token
             );
 
-
-            // Remove from React state
-
             dispatch({
                 type: "DELETE_USER_SUCCESS",
                 payload: id,
             });
-
-
-            // Success message
 
             setSuccessMessage(
                 "User deleted successfully!"

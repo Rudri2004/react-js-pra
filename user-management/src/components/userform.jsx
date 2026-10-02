@@ -247,10 +247,6 @@ function UserForm({
             <div className="add-user-container">
 
 
-                {/* =================================
-                    HEADER
-                ================================= */}
-
                 <div className="add-user-header">
 
                     <h1>
@@ -273,9 +269,7 @@ function UserForm({
                 </div>
 
 
-                {/* =================================
-                    FORM
-                ================================= */}
+             
 
                 <form
                     className="add-user-form"
@@ -337,7 +331,7 @@ function UserForm({
 
 
 
-                    {/* USERNAME */}
+              
 
                     <div className="form-group">
 
@@ -369,7 +363,7 @@ function UserForm({
 
 
 
-                    {/* PHONE */}
+                 
 
                     <div className="form-group">
 
@@ -397,7 +391,7 @@ function UserForm({
 
 
 
-                    {/* ERROR */}
+                
 
                     {error && (
 
@@ -411,7 +405,7 @@ function UserForm({
 
 
 
-                    {/* SUCCESS */}
+         
 
                     {success && (
 
@@ -425,7 +419,7 @@ function UserForm({
 
 
 
-                    {/* BUTTONS */}
+                 
 
                     <div className="form-buttons">
 
@@ -454,7 +448,7 @@ function UserForm({
 
 
 
-                        {/* CANCEL */}
+                      
 
                         {editingUser && (
 

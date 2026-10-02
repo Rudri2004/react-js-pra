@@ -571,3 +571,59 @@
 .clear-search-result:hover {
     background: #4338ca;
 }
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.pagination button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 14px;
+    font-weight: 500;
+}
+.filter-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-box select,
+.filter-box input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.filter-box button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #64748b;
+    color: white;
+    cursor: pointer;
+}
+
+.sort-box select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+}

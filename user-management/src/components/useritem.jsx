@@ -4,33 +4,13 @@ function UserItem({
     onDelete
 }) {
 
-
-    // =========================================
-    // FULL NAME
-    // firstName + lastName
-    // =========================================
-
-    const fullName =
+ const fullName =
         `${user.firstName || ""} ${user.lastName || ""}`
             .trim();
-
-
-    // =========================================
-    // USERNAME
-    // firstName_userId
-    //
-    // Example:
-    // Aarav_usr_001
-    // =========================================
 
     const username =
         user.username ||
         `${user.firstName || "User"}_${user.id}`;
-
-
-    // =========================================
-    // AVATAR
-    // =========================================
 
     const avatarLetter =
         user.firstName
@@ -44,25 +24,14 @@ function UserItem({
 
         <div className="user-card">
 
-
-            {/* =================================
-                USER HEADER
-            ================================= */}
-
             <div className="user-card-top">
 
-
-                {/* AVATAR */}
 
                 <div className="user-avatar">
 
                     {avatarLetter}
 
                 </div>
-
-
-
-                {/* NAME + ID */}
 
                 <div className="user-main-info">
 
@@ -83,25 +52,9 @@ function UserItem({
 
             </div>
 
-
-
-            {/* =================================
-                USER DETAILS
-            ================================= */}
-
             <div className="user-details">
-
-
-                {/* EMAIL */}
-
                 <div className="detail-row">
-
-                    <span className="detail-label">
-
-                        Email
-
-                    </span>
-
+                    <span className="detail-label">   Email   </span>
 
                     <span className="detail-value">
 
@@ -111,98 +64,32 @@ function UserItem({
 
                 </div>
 
-
-
-                {/* USERNAME */}
-
                 <div className="detail-row">
 
-                    <span className="detail-label">
+                    <span className="detail-label"> Username </span>
 
-                        Username
-
-                    </span>
-
-
-                    <span className="detail-value">
-
+                    <span className="etail-value">
                         {username}
-
                     </span>
-
                 </div>
-
-
-
-                {/* PHONE */}
 
                 <div className="detail-row">
 
-                    <span className="detail-label">
-
-                        Phone
-
-                    </span>
-
-
+                    <span className="detail-label">  Phone </span>
                     <span className="detail-value">
-
                         {user.phone || "N/A"}
-
                     </span>
-
                 </div>
-
-
             </div>
-
-
-
-            {/* =================================
-                ACTION BUTTONS
-            ================================= */}
 
             <div className="user-actions">
-
-
-                {/* EDIT */}
-
                 <button
-                    type="button"
-
-                    className="edit-button"
-
-                    onClick={() =>
-                        onEdit(user)
-                    }
-                >
-
-                    Edit
-
-                </button>
-
-
-
-                {/* DELETE */}
-
-                <button
-                    type="button"
-
-                    className="delete-button"
-
-                    onClick={() =>
-                        onDelete(user.id)
-                    }
-                >
-
+                    type="button" className="edit-button"  onClick={() =>   onEdit(user)     }    >
+                    Edit  </button>
+                <button type="button" className="delete-button"  onClick={() => onDelete(user.id)  } >
                     Delete
-
                 </button>
-
-
             </div>
-
-
         </div>
 
     );

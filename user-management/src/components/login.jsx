@@ -13,35 +13,23 @@ function Login({ onLoginSuccess }) {
     const handleLogin = async (e) => {
 
         e.preventDefault();
-
-        // Clear previous error
         setError("");
 
-        // Validation
-        if (!email || !password) {
-            setError("Email and password are required");
-            return;
-        }
-
-        try {
-
-            setLoading(true);
-
-            // Call login API
+  if (!email || !password) {
+     setError("Email and password are required");
+     return;
+  } try {
+            setLoading(true); 
             const data = await loginUser(email, password);
-
             console.log("Login response:", data);
 
-            // Store token
             localStorage.setItem(
                 "token",
                 data.accessToken
             );
 
-            // Tell App.jsx login was successful
-            onLoginSuccess();
-
-        } catch (error) {
+  onLoginSuccess();  }
+   catch (error) {
 
             setError(error.message);
 
@@ -55,55 +43,26 @@ function Login({ onLoginSuccess }) {
     return (
 
         <div className="login-page">
-
             <div className="login-card">
+         <div className="login-header">
 
-                {/* Header */}
+                    <h1>  User Management</h1>
 
-                <div className="login-header">
-
-                    <h1>
-                        User Management
-                    </h1>
-
-                    <p>
-                        Login to manage your users
-                    </p>
-
+                    <p> Login to manage your users </p>
                 </div>
-
-
-                {/* Login Form */}
-
                 <form onSubmit={handleLogin}>
-
-                    {/* Email */}
-
                     <div className="form-group">
 
-                        <label>
-                            Email
-                        </label>
+                        <label>Email </label>
 
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) =>
-                                setEmail(e.target.value)
+                        <input type="email" value={email}
+                            onChange={(e) => setEmail(e.target.value)
                             }
-                            placeholder="Enter your email"
-                        />
-
+                            placeholder="Enter your email"  />
                     </div>
+<div className="form-group">
 
-
-                    {/* Password */}
-
-                    <div className="form-group">
-
-                        <label>
-                            Password
-                        </label>
+                        <label> Password </label>
 
                         <input
                             type="password"
@@ -112,26 +71,13 @@ function Login({ onLoginSuccess }) {
                                 setPassword(e.target.value)
                             }
                             placeholder="Enter your password"
-                        />
-
-                    </div>
-
-
-                    {/* Error */}
+                        />   </div>
 
                     {error && (
 
                         <div className="error-message">
-
                             {error}
-
-                        </div>
-
-                    )}
-
-
-                    {/* Login Button */}
-
+                        </div>  )}
                     <button
                         type="submit"
                         className="login-button"
@@ -143,15 +89,14 @@ function Login({ onLoginSuccess }) {
                             : "Login"
                         }
 
-                    </button>
+               </button>
 
-                </form>
-
-            </div>
+                          </form>
 
         </div>
 
+ </div>
+
     );
 }
-
 export default Login;

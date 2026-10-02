@@ -7,40 +7,25 @@
     align-items: center;
     padding: 20px;
 }
-
-
 .login-card {
     width: 400px;
-
     background-color: #ffffff;
-
     padding: 35px;
-
     border-radius: 10px;
-
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
-
-
 .login-header {
     text-align: center;
     margin-bottom: 25px;
 } 
-
 .login-header h1 {
     margin: 0 0 10px;
-
     font-size: 30px;
-
     color: #222222;
 }
-
 .login-header p {
     margin: 0;
-
     color: #666666;
-
     font-size: 16px;
 }
 
@@ -49,114 +34,64 @@
 .form-group {
     margin-bottom: 18px;
 }
-
-
-/* Label */
-
 .form-group label {
     display: block;
-
     margin-bottom: 7px;
-
     font-size: 14px;
-
     font-weight: 600;
-
     color: #333333;
 }
-
-
-/* Input */
-
 .form-group input {
     width: 100%;
     display: flex;
     padding: 11px 12px;
-
     box-sizing: border-box;
-
     border: 1px solid #cccccc;
-
     border-radius: 5px;
-
     font-size: 14px;
-
     outline: none;
 }
-
-
-/* Input focus */
-
 .form-group input:focus {
     border-color: #4f46e5;
    
 }
-
 .error-message {
     background-color: #fee2e2;
-
     color: #dc2626;
-
     padding: 10px;
-
     margin-bottom: 15px;
-
     border-radius: 5px;
-
     font-size: 14px;
 }
-
-
-
 .login-button {
     width: 100%;
-
     padding: 11px;
 
     border: none;
-
     border-radius: 5px;
 
     background-color: #4f46e5;
-
     color: white;
-
     font-size: 16px;
-
-    cursor: pointer;
+    cursor:pointer;
 }
-
-
-/* Button Hover */
-
 .login-button:hover {
     background-color: #3730a3;
 }
-
 .success-message {
     position: fixed;
-
     top: 20px;
     right: 20px;
 
     z-index: 1000;
-
     padding: 14px 20px;
-
     background: #dcfce7;
-
     color: #166534;
-
     border: 1px solid #bbf7d0;
-
     border-radius: 8px;
-
     font-size: 14px;
-
     font-weight: 600;
-
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-
     animation: successSlide 0.3s ease;
 }
 .users-page {
@@ -164,20 +99,17 @@
     padding: 40px 20px;
     background: #f4f6f8;
 }
-
 .users-container {
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
 }
-
 .users-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
 }
-
 .users-header h1 {
     margin: 0 0 6px;
     font-size: 30px;
@@ -189,10 +121,6 @@
     color: #64748b;
     font-size: 15px;
 }
-
-
-/* User Count */
-
 .user-count {
     padding: 8px 16px;
     border-radius: 20px;
@@ -201,80 +129,52 @@
     font-size: 14px;
     font-weight: 600;
 }
-
-
 .users-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
-
-
 .user-card {
     padding: 24px;
     background: white;
     border-radius: 14px;
-
     box-shadow:
         0 5px 20px rgba(0, 0, 0, 0.06);
-
     transition: 0.2s ease;
 }
-
 .user-card:hover {
     transform: translateY(-3px);
-
     box-shadow:
         0 10px 25px rgba(0, 0, 0, 0.1);
 }
-
-
 .user-card-top {
     display: flex;
     align-items: center;
     gap: 15px;
-
     padding-bottom: 18px;
-
     border-bottom: 1px solid #e2e8f0;
 }
-
-
-/* Avatar */
-
 .user-avatar {
     width: 55px;
     height: 55px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     flex-shrink: 0;
-
     border-radius: 50%;
-
     background: #4f46e5;
     color: white;
-
     font-size: 22px;
     font-weight: bold;
 }
-
-
-/* User Name */
-
 .user-main-info {
     min-width: 0;
 }
-
 .user-main-info h3 {
     margin: 0 0 5px;
-
     color: #1e293b;
 
     font-size: 18px;
-
     word-break: break-word;
 }
 
@@ -282,9 +182,6 @@
     color: #94a3b8;
     font-size: 12px;
 }
-
-
-
 .user-details {
     padding: 18px 0;
 }
@@ -292,9 +189,7 @@
 .detail-row {
     display: flex;
     flex-direction: column;
-
     gap: 4px;
-
     margin-bottom: 13px;
 }
 
@@ -304,52 +199,35 @@
 
 .detail-label {
     color: #64748b;
-
-    font-size: 12px;
-    font-weight: 600;
-
+        font-size: 12px;
+      font-weight: 600;
     text-transform: uppercase;
 }
 
 
 .detail-value {
     color: #334155;
-
     font-size: 14px;
-
     word-break: break-word;
 }
-
-
 
 .user-actions {
     display: flex;
     gap: 10px;
-
     padding-top: 18px;
-
     border-top: 1px solid #e2e8f0;
 }
 
 .user-actions button {
     flex: 1;
-
     padding: 10px 15px;
-
     border: none;
     border-radius: 7px;
-
     font-size: 14px;
     font-weight: 600;
-
     cursor: pointer;
-
     transition: 0.2s ease;
 }
-
-
-/* Edit */
-
 .edit-button {
     background: #eef2ff;
     color: #4338ca;
@@ -358,10 +236,6 @@
 .edit-button:hover {
     background: #e0e7ff;
 }
-
-
-/* Delete */
-
 .delete-button {
     background: #fef2f2;
     color: #dc2626;
@@ -371,48 +245,27 @@
     background: #fee2e2;
 }
 
-
-/* =========================================
-   STATUS CARD
-   Loading / Error / Empty
-========================================= */
-
 .status-card {
     width: 100%;
-
     padding: 50px 30px;
-
     text-align: center;
-
     background: white;
-
     border-radius: 14px;
-
     box-shadow:
         0 5px 20px rgba(0, 0, 0, 0.06);
 }
 
 .status-card h2 {
     margin: 0 0 10px;
-
     color: #1e293b;
-
     font-size: 22px;
 }
 
 .status-card p {
     margin: 0;
-
     color: #64748b;
-
     font-size: 14px;
 }
-
-
-/* =========================================
-   ERROR CARD
-========================================= */
-
 .error-card {
     border: 1px solid #fecaca;
 }
@@ -421,20 +274,13 @@
     color: #dc2626;
 }
 
-
-/* =========================================
-   LOADING SPINNER
-========================================= */
-
 .loader {
     width: 40px;
     height: 40px;
 
     margin: 0 auto 20px;
-
     border: 4px solid #e2e8f0;
     border-top-color: #4f46e5;
-
     border-radius: 50%;
 
     animation: spin 0.8s linear infinite;
@@ -452,10 +298,6 @@
 
 }
 
-
-/* =========================================
-   SUCCESS MESSAGE
-========================================= */
 
 .success-message {
     position: fixed;
@@ -508,10 +350,6 @@
     max-width: 1100px;
     margin: 0 auto;
 }
-
-
-/* Header */
-
 .add-user-header {
     margin-bottom: 20px;
 }
@@ -520,74 +358,47 @@
     margin: 0 0 6px;
 
     font-size: 28px;
-
     color: #1e293b;
 }
 
 .add-user-header p {
     margin: 0;
-
     color: #64748b;
-
     font-size: 14px;
 }
-
-
-/* Form */
-
 .add-user-form {
     display: grid;
-
     grid-template-columns: repeat(2, 1fr);
-
     gap: 18px;
-
     padding: 25px;
-
     background: white;
-
     border-radius: 14px;
-
     box-shadow:
         0 5px 20px rgba(0, 0, 0, 0.06);
 }
-
-
-/* Inputs */
-
 .add-user-form .form-group {
     margin-bottom: 0;
 }
 
 .add-user-form label {
     display: block;
-
     margin-bottom: 7px;
-
     color: #334155;
-
     font-size: 14px;
-
     font-weight: 600;
 }
 
 .add-user-form input {
     width: 100%;
-
     padding: 11px 13px;
-
     border: 1px solid #cbd5e1;
-
     border-radius: 7px;
-
     outline: none;
-
     font-size: 14px;
 }
 
 .add-user-form input:focus {
     border-color: #4f46e5;
-
     box-shadow:
         0 0 0 3px rgba(79, 70, 229, 0.1);
 }
@@ -597,21 +408,13 @@
 
 .add-user-button {
     grid-column: 1 / -1;
-
     padding: 12px;
-
     border: none;
-
-    border-radius: 8px;
-
+ border-radius: 8px;
     background: #4f46e5;
-
     color: white;
-
     font-size: 15px;
-
     font-weight: 600;
-
     cursor: pointer;
 }
 
@@ -625,71 +428,26 @@
     cursor: not-allowed;
 }
 
-
-/* Error */
-
 .form-error {
     grid-column: 1 / -1;
-
     padding: 10px 12px;
-
     border-radius: 7px;
-
     background: #fef2f2;
-
     color: #dc2626;
-
     border: 1px solid #fecaca;
-
     font-size: 14px;
 }
-
-
-/* Success */
 
 .form-success {
     grid-column: 1 / -1;
-
     padding: 10px 12px;
-
     border-radius: 7px;
-
     background: #f0fdf4;
-
     color: #15803d;
-
     border: 1px solid #bbf7d0;
-
     font-size: 14px;
 }
 
-
-/* =========================================
-   ADD USER RESPONSIVE
-========================================= */
-
-@media (max-width: 600px) {
-
-    .add-user-page {
-        padding: 25px 15px 15px;
-    }
-
-    .add-user-form {
-        grid-template-columns: 1fr;
-
-        padding: 20px;
-    }
-
-    .add-user-button {
-        grid-column: auto;
-    }
-
-    .form-error,
-    .form-success {
-        grid-column: auto;
-    }
-
-}
 .users-title {
     min-width: 220px;
 }
@@ -700,31 +458,18 @@
     gap: 10px;
 }
 
-
-/* Search Box */
-
 .search-box {
     width: 280px;
     height: 42px;
-
     display: flex;
     align-items: center;
-
     background: #ffffff;
-
     border: 1px solid #dbe3f0;
-
     border-radius: 22px;
-
     padding: 0 12px;
-
     box-sizing: border-box;
-
     transition: 0.2s ease;
 }
-
-
-/* Search Box Focus */
 
 .search-box:focus-within {
     border-color: #4f46e5;
@@ -732,10 +477,6 @@
     box-shadow:
         0 0 0 3px rgba(79, 70, 229, 0.1);
 }
-
-
-/* Search Icon */
-
 .search-icon {
     font-size: 15px;
 
@@ -743,10 +484,6 @@
 
     color: #64748b;
 }
-
-
-/* Search Input */
-
 .search-box input {
     width: 100%;
 
@@ -766,10 +503,6 @@
 .search-box input::placeholder {
     color: #94a3b8;
 }
-
-
-/* Clear X */
-
 .clear-search {
     width: 22px;
     height: 22px;
@@ -779,9 +512,7 @@
     justify-content: center;
 
     border: none;
-
     border-radius: 50%;
-
     background: #f1f5f9;
 
     color: #64748b;
@@ -806,84 +537,37 @@
 
 .search-button {
     height: 42px;
-
     padding: 0 18px;
-
     border: none;
-
     border-radius: 22px;
-
     background: #4f46e5;
-
     color: white;
-
     font-size: 13px;
-
     font-weight: 600;
-
     cursor: pointer;
-
     transition: 0.2s ease;
 }
 
 .search-button:hover {
     background: #4338ca;
-
     transform: translateY(-1px);
 }
 
 .search-button:active {
     transform: translateY(0);
 }
-
-
-/* Clear Search Result Button */
-
 .clear-search-result {
     margin-top: 20px;
-
     padding: 10px 18px;
-
     border: none;
-
     border-radius: 7px;
-
     background: #4f46e5;
-
     color: white;
-
     font-size: 14px;
-
     font-weight: 600;
-
     cursor: pointer;
 }
 
 .clear-search-result:hover {
     background: #4338ca;
-}
-
-
-/* =========================================
-   SEARCH RESPONSIVE
-========================================= */
-
-@media (max-width: 1000px) {
-
-    .users-header {
-        align-items: flex-start;
-
-        gap: 20px;
-    }
-
-    .users-header-right {
-        flex-wrap: wrap;
-
-        justify-content: flex-end;
-    }
-
-    .search-box {
-        width: 240px;
-    }
-
 }

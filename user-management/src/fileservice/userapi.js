@@ -1,12 +1,9 @@
 const BASE_URL = "http://localhost:9001";
 
-
-
 export const loginUser = async (email, password) => {
 
     const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
-
         headers: {
             "Content-Type": "application/json",
         }, 
@@ -31,11 +28,11 @@ export const loginUser = async (email, password) => {
 export const getUsers = async (token) => {
 
     const response = await fetch(
-        `${BASE_URL}/userProfiles`,
+     `${BASE_URL}/userProfiles`,
         {
             method: "GET",
 
-            headers: {
+                    headers: {
                 Authorization: `Bearer ${token}`,
             },
         }
@@ -110,9 +107,7 @@ export const deleteUser = async (id, token) => {
 
     const response = await fetch(
         `${BASE_URL}/userProfiles/${id}`,
-        {
-            method: "DELETE",
-
+        { method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -121,7 +116,7 @@ export const deleteUser = async (id, token) => {
 
     if (!response.ok) {
 
-        const data = await response.json();
+                      const data = await response.json();
 
         throw new Error(
             data.message || "Failed to delete user"

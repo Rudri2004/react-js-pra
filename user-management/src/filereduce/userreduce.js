@@ -11,9 +11,9 @@ export const userReducer = (state, action) => {
         case "FETCH_USERS_START":
 
             return {
-                ...state,
+     ...state,
                 loading: true,
-                error: null,
+        error: null,
             };
 
         case "FETCH_USERS_SUCCESS":

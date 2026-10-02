@@ -8,10 +8,8 @@ function UserList({ onEdit, onDelete }) {
 
     const { state, dispatch } = useUsers();
 
-    // Search input value
-    const [searchText, setSearchText] = useState("");
 
-    // Actual search value
+    const [searchText, setSearchText] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
 
@@ -20,8 +18,6 @@ function UserList({ onEdit, onDelete }) {
         const fetchUsers = async () => {
 
             const token = localStorage.getItem("token");
-
-            // Check token
             if (!token) {
 
                 dispatch({
@@ -38,10 +34,9 @@ function UserList({ onEdit, onDelete }) {
                     type: "FETCH_USERS_START",
                 });
 
-                // API call
+           
                 const data = await getUsers(token);
 
-                // Success
                 dispatch({
                     type: "FETCH_USERS_SUCCESS",
                     payload: data,
@@ -49,7 +44,6 @@ function UserList({ onEdit, onDelete }) {
 
             } catch (error) {
 
-                // Error
                 dispatch({
                     type: "FETCH_USERS_ERROR",
                     payload: error.message,
@@ -63,29 +57,14 @@ function UserList({ onEdit, onDelete }) {
 
     }, [dispatch]);
 
-
-    // =========================================
-    // SEARCH FUNCTION
-    // =========================================
-
     const handleSearch = () => {
         setSearchQuery(searchText.trim());
     };
-
-
-    // =========================================
-    // CLEAR SEARCH
-    // =========================================
 
     const handleClearSearch = () => {
         setSearchText("");
         setSearchQuery("");
     };
-
-
-    // =========================================
-    // FILTER USERS
-    // =========================================
 
     const filteredUsers = state.users.filter((user) => {
 
@@ -93,17 +72,12 @@ function UserList({ onEdit, onDelete }) {
 
         return (
             (user.name || "").toLowerCase().includes(query) ||
-            (user.email || "").toLowerCase().includes(query) ||
-            (user.username || "").toLowerCase().includes(query) ||
-            (user.phone || "").toLowerCase().includes(query)
+              (user.email || "").toLowerCase().includes(query)   ||
+         (user.username || "").toLowerCase().includes(query) ||
+             (user.phone || "").toLowerCase().includes(query)
         );
 
     });
-
-
-    // =========================================
-    // LOADING STATE
-    // =========================================
 
     if (state.loading) {
 
@@ -115,55 +89,28 @@ function UserList({ onEdit, onDelete }) {
 
                     <div className="loader"></div>
 
-                    <h2>
-                        Loading Users...
-                    </h2>
+                    <h2> Loading Users...</h2>
 
-                    <p>
-                        Please wait while users are being loaded.
-                    </p>
-
+                    <p> Please wait while users are being loaded.  </p>
                 </div>
-
             </div>
-
         );
-
     }
-
-
-    // =========================================
-    // ERROR STATE
-    // =========================================
 
     if (state.error) {
 
         return (
 
             <div className="users-page">
-
                 <div className="status-card error-card">
 
-                    <h2>
-                        Something went wrong
-                    </h2>
+                    <h2> Something went wrong </h2>
 
-                    <p>
-                        {state.error}
-                    </p>
+                    <p>{state.error}  </p>
 
                 </div>
 
-            </div>
-
-        );
-
-    }
-
-
-    // =========================================
-    // DISPLAY USERS
-    // =========================================
+            </div>   );  }
 
     return (
 
@@ -172,28 +119,15 @@ function UserList({ onEdit, onDelete }) {
             <div className="users-container">
 
 
-                {/* =================================
-                    HEADER
-                ================================= */}
-
                 <div className="users-header">
 
                     <div className="users-title">
 
-                        <h1>
-                            User Management
-                        </h1>
+                        <h1> User Management </h1>
 
-                        <p>
-                            Manage registered users
-                        </p>
+                        <p> Manage registered users </p>
 
                     </div>
-
-
-                    {/* =================================
-                        SEARCH + USER COUNT
-                    ================================= */}
 
                     <div className="users-header-right">
 
@@ -203,9 +137,9 @@ function UserList({ onEdit, onDelete }) {
 
                             <input
                                 type="text"
-                                value={searchText}
+                     value={searchText}
                                 onChange={(e) =>
-                                    setSearchText(e.target.value)
+                          setSearchText(e.target.value)
                                 }
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
@@ -218,7 +152,7 @@ function UserList({ onEdit, onDelete }) {
                             {searchQuery && (
                                 <button
                                     type="button"
-                                    className="clear-search"
+                  className="clear-search"
                                     onClick={handleClearSearch}
                                 >
                                     ×
@@ -228,12 +162,12 @@ function UserList({ onEdit, onDelete }) {
                         </div>
 
 
-                        <button
-                            type="button"
-                            className="search-button"
-                            onClick={handleSearch}
-                        >
-                             Search
+                            <button
+                                type="button"
+                                className="search-button"
+                                onClick={handleSearch}
+                            >
+                                Search
                         </button>
 
 
@@ -244,11 +178,6 @@ function UserList({ onEdit, onDelete }) {
                     </div>
 
                 </div>
-
-
-                {/* =================================
-                    EMPTY STATE
-                ================================= */}
 
                 {state.users.length === 0 ? (
 
@@ -265,11 +194,6 @@ function UserList({ onEdit, onDelete }) {
                     </div>
 
                 ) : filteredUsers.length === 0 ? (
-
-                    /* =================================
-                       NO SEARCH RESULTS
-                    ================================= */
-
                     <div className="status-card">
 
                         <h2>
@@ -290,13 +214,9 @@ function UserList({ onEdit, onDelete }) {
 
                     </div>
 
-                ) : (
+                ) : 
 
-                    /* =================================
-                       USER GRID
-                    ================================= */
-
-                    <div className="users-grid">
+                  (  <div className="users-grid">
 
                         {filteredUsers.map((user) => (
 
@@ -306,17 +226,9 @@ function UserList({ onEdit, onDelete }) {
                                 onEdit={onEdit}
                                 onDelete={onDelete}
                             />
-
-                        ))}
-
-                    </div>
-
-                )}
-
+                        ))} </div>   )}
             </div>
-
         </div>
-
     );
 
 }

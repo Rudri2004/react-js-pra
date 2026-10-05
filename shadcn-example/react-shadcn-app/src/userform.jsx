@@ -39,7 +39,7 @@ function UserForm() {
             className="space-y-4"
           >
 
-            {/* Name */}
+          
             <div>
               <label className="text-sm font-medium">
                 Name
@@ -60,7 +60,7 @@ function UserForm() {
               )}
             </div>
 
-            {/* Email */}
+           
             <div>
               <label className="text-sm font-medium">
                 Email
@@ -81,7 +81,7 @@ function UserForm() {
               )}
             </div>
 
-            {/* Submit */}
+           
             <Button type="submit" className="w-full">
               Submit
             </Button>

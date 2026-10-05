@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@hookform/devtools": "^4.4.0",
+    "react-hook-form": "^7.89.0"
+  }
+}

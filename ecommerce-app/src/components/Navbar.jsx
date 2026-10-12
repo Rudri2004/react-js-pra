@@ -1,6 +1,11 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, Store, UserRound } from "lucide-react";
+import {
+  ShoppingCart,
+  Store,
+  UserRound,
+  PackageCheck,
+} from "lucide-react";
 
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
@@ -60,6 +65,14 @@ export default function Navbar() {
 
           {isAuthenticated && user ? (
             <>
+              <Link
+                to="/orders"
+                className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-black sm:text-base"
+              >
+                <PackageCheck size={20} />
+                My Orders
+              </Link>
+
               <Link
                 to="/profile"
                 className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-black sm:text-base"

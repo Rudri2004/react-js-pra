@@ -7,10 +7,16 @@ import { CheckCircle2, ShoppingBag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
+import useOrderStore from "@/store/orderStore";
 import { checkoutSchema } from "@/lib/schemas/checkoutSchema";
 
 export default function Checkout() {
@@ -19,8 +25,11 @@ export default function Checkout() {
 
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
+
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  const addOrder = useOrderStore((state) => state.addOrder);
 
   const [order, setOrder] = useState(null);
 
@@ -69,14 +78,20 @@ export default function Checkout() {
   function onSubmit(values) {
     const newOrder = {
       id: `SE-${Date.now()}`,
+      username: user.username,
       customer: values,
-      items: [...items],
+      items: items.map((item) => ({ ...item })),
       subtotal,
       shipping,
       total,
+      status: "Order Placed",
       createdAt: new Date().toISOString(),
     };
 
+    // Save the order persistently.
+    addOrder(newOrder);
+
+    // Display confirmation and empty the cart.
     setOrder(newOrder);
     clearCart();
   }
@@ -105,6 +120,9 @@ export default function Checkout() {
                 ${order.total.toFixed(2)}
               </p>
 
+              <p className="mt-4 text-sm text-gray-500">Order status</p>
+              <p className="mt-1 font-medium">{order.status}</p>
+
               <p className="mt-4 text-sm text-gray-500">Delivering to</p>
               <p className="mt-1">
                 {order.customer.name}
@@ -115,9 +133,15 @@ export default function Checkout() {
               </p>
             </div>
 
-            <Button className="mt-8" onClick={() => navigate("/")}>
-              Continue Shopping
-            </Button>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <Button onClick={() => navigate("/orders")}>
+                View My Orders
+              </Button>
+
+              <Button variant="outline" onClick={() => navigate("/")}>
+                Continue Shopping
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </main>
@@ -277,7 +301,9 @@ export default function Checkout() {
 
               <div className="flex justify-between">
                 <span className="text-gray-500">Shipping</span>
-                <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
+                <span>
+                  {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+                </span>
               </div>
 
               <div className="flex justify-between border-t pt-3 text-base font-bold">
@@ -286,7 +312,11 @@ export default function Checkout() {
               </div>
             </div>
 
-            <Button type="submit" className="mt-6 w-full" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="mt-6 w-full"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Placing Order..." : "Place Order"}
             </Button>
 

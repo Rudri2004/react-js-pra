@@ -44,7 +44,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      // Authenticate against accounts registered in Zustand.
+    
       const result = login(values.username, values.password);
 
       if (!result.success) {
@@ -52,8 +52,7 @@ export default function Login() {
         return;
       }
 
-      // Return to the originally requested page after login.
-      const destination = location.state?.from || "/";
+           const destination = location.state?.from || "/";
 
       navigate(destination, { replace: true });
     } catch (error) {
@@ -96,7 +95,7 @@ export default function Login() {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Username */}
+         
           <div>
             <label
               htmlFor="username"
@@ -121,7 +120,7 @@ export default function Login() {
             )}
           </div>
 
-          {/* Password */}
+       
           <div>
             <label
               htmlFor="password"

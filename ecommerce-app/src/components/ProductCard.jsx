@@ -55,7 +55,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Card className="flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      {/* Product image and wishlist button */}
+  
       <div className="relative">
         <Link
           to={`/products/${product.id}`}
@@ -96,7 +96,7 @@ export default function ProductCard({ product }) {
         </Button>
       </div>
 
-      {/* Product information */}
+   
       <CardContent className="flex flex-1 flex-col gap-3 p-4">
         <span className="w-fit max-w-full truncate rounded-full bg-gray-100 px-3 py-1 text-xs capitalize text-gray-700">
           {product.category}
@@ -136,7 +136,7 @@ export default function ProductCard({ product }) {
         </p>
       </CardContent>
 
-      {/* Add to Cart */}
+   
       <CardFooter className="mt-auto p-4 pt-0">
         <Button
           type="button"

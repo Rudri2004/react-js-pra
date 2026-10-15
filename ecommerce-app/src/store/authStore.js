@@ -2,6 +2,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import useCartStore from "@/store/cartStore";
+import useWishlistStore from "@/store/wishlistStore";
+
 const useAuthStore = create(
   persist(
     (set, get) => ({
@@ -82,8 +85,15 @@ const useAuthStore = create(
         };
       },
 
-      // Logout the current user
+      // Logout and clear cart and wishlist
       logout: () => {
+        // Clear persisted cart
+        useCartStore.getState().clearCart();
+
+        // Clear persisted wishlist
+        useWishlistStore.getState().clearWishlist();
+
+        // Clear authentication only
         set({
           user: null,
           isAuthenticated: false,

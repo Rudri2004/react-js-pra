@@ -143,7 +143,7 @@ export default function Orders() {
                     </div>
                   </div>
 
-                  {/* Tracking timeline */}
+                 
                   <div className="my-6 border-t pt-6">
                     <h3 className="mb-6 font-semibold">
                       Order Tracking
@@ -202,7 +202,7 @@ export default function Orders() {
                     )}
                   </div>
 
-                  {/* Products */}
+                
                   <div className="border-t pt-5">
                     <h3 className="mb-4 font-semibold">
                       Items ({order.items.length})
@@ -257,7 +257,7 @@ export default function Orders() {
                     </p>
                   </div>
 
-                  {/* Demo status controls */}
+              
                   {!isCancelled && order.status !== "Delivered" && (
                     <div className="mt-5 border-t pt-4">
                       <p className="mb-3 text-sm font-medium">
@@ -291,7 +291,7 @@ export default function Orders() {
                     </div>
                   )}
 
-                  {/* Cancellation controls */}
+                 
                   {order.status === "Order Placed" && (
                     <div className="mt-4 border-t pt-4">
                       {cancelOrderId === order.id ? (

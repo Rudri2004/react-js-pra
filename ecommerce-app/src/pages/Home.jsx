@@ -112,8 +112,8 @@ return (
 
 
      
-      {/* Fixed-width filter sidebar */}
-      <aside className="h-fit w-full self-start rounded-xl border border-gray-200 bg-white p-5 shadow-sm">            <div className="mb-5 flex items-center gap-2">
+   
+       <aside className="sticky top-24 self-start max-h-[calc(100vh-7rem)] w-full overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white p-5 shadow-sm">            <div className="mb-5 flex items-center gap-2">
               <SlidersHorizontal className="h-5 w-5" />
               <h2 className="text-xl font-bold">Filters</h2>
             </div>
@@ -127,7 +127,7 @@ return (
               Clear All
             </Button>
 
-            {/* Category filters */}
+        
             <div className="mt-8">
               <h3 className="mb-4 text-lg font-semibold">
                 Categories
@@ -157,7 +157,7 @@ return (
 
             <div className="my-7 border-t border-gray-200" />
 
-            {/* Price filter */}
+           
             <div>
               <h3 className="mb-4 text-lg font-semibold">
                 Price Range
@@ -193,7 +193,7 @@ return (
 
             <div className="my-7 border-t border-gray-200" />
 
-            {/* Minimum rating filter */}
+         
             <div>
               <h3 className="mb-4 text-lg font-semibold">
                 Minimum Rating
@@ -230,9 +230,9 @@ return (
             </div>
           </aside>
 
-          {/* Right product section */}
+        
           <section className="min-w-0">
-            {/* Search and sorting */}
+          
             <div className="mb-7 flex flex-col gap-4 sm:flex-row">
               <div className="relative min-w-0 flex-1">
                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
@@ -289,7 +289,7 @@ return (
               </Button>
             </div>
 
-            {/* Loading state */}
+          
             {loading && (
               <div
                 role="status"
@@ -307,7 +307,7 @@ return (
               </div>
             )}
 
-            {/* Error state */}
+    
             {!loading && error && (
               <div className="rounded-xl border border-red-200 bg-red-50 p-8 text-center">
                 <p className="font-semibold text-red-700">
@@ -324,7 +324,7 @@ return (
               </div>
             )}
 
-            {/* Empty state */}
+           
             {!loading &&
               !error &&
               filteredProducts.length === 0 && (
@@ -347,7 +347,7 @@ return (
                 </div>
               )}
 
-            {/* Product grid: 3 columns on large screens */}
+           
             {!loading &&
               !error &&
               filteredProducts.length > 0 && (

@@ -29,17 +29,16 @@ export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Existing cart store
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
 
-  // Existing authentication store
+ 
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore(
     (state) => state.isAuthenticated
   );
 
-  // Existing order store
+
   const addOrder = useOrderStore((state) => state.addOrder);
 
   const [order, setOrder] = useState(null);
@@ -61,7 +60,7 @@ export default function Checkout() {
     },
   });
 
-  // Guests must log in before checkout.
+  
   if (!isAuthenticated) {
     return (
       <Navigate
@@ -75,12 +74,12 @@ export default function Checkout() {
     );
   }
 
-  // Don't allow checkout with an empty cart.
+ 
   if (items.length === 0 && !order) {
     return <Navigate to="/cart" replace />;
   }
 
-  // Keep the existing pricing rules.
+  
   const subtotal = items.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -93,7 +92,7 @@ export default function Checkout() {
     const newOrder = {
       id: `SE-${Date.now()}`,
 
-      // Keep the username for your existing order filtering.
+     
       username: user?.username || user?.email || "",
 
       customer: values,
@@ -102,26 +101,26 @@ export default function Checkout() {
       shipping,
       total,
 
-      // Cash on Delivery details
+      
       paymentMethod: "Cash on Delivery",
       paymentStatus: "Pending - Cash on Delivery",
 
-      // Existing order status
+      
       status: "Order Placed",
       createdAt: new Date().toISOString(),
     };
 
-    // Save the order to the existing Zustand order store.
+    
     addOrder(newOrder);
 
-    // Show the confirmation before navigating away.
+   
     setOrder(newOrder);
 
-    // Empty the existing cart after the order is saved.
+   
     clearCart();
   }
 
-  // Order confirmation screen
+  
   if (order) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-12">
@@ -217,7 +216,7 @@ export default function Checkout() {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3"
       >
-        {/* Shipping information */}
+    
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -356,7 +355,7 @@ export default function Checkout() {
           </CardContent>
         </Card>
 
-        {/* Order summary and payment method */}
+        
         <Card>
           <CardHeader>
             <CardTitle>Order Summary</CardTitle>

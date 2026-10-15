@@ -18,7 +18,7 @@ export default function Cart() {
     (state) => state.isAuthenticated
   );
 
-  // Require login before accessing the cart.
+  
   if (!isAuthenticated) {
     return (
       <Navigate
@@ -42,7 +42,6 @@ export default function Cart() {
     0
   );
 
-  // Empty cart state.
   if (items.length === 0) {
     return (
       <main className="mx-auto max-w-5xl px-4 py-20 text-center">
@@ -68,7 +67,7 @@ export default function Cart() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      {/* Cart heading */}
+
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Shopping Cart</h1>
@@ -84,7 +83,7 @@ export default function Cart() {
       </div>
 
       <div className="grid items-start gap-8 lg:grid-cols-3">
-        {/* Cart items */}
+
         <section className="space-y-4 lg:col-span-2">
           {items.map((item) => (
             <article
@@ -119,7 +118,6 @@ export default function Cart() {
                 </p>
               </div>
 
-              {/* Quantity controls and remove button */}
               <div className="flex items-center justify-between gap-4 sm:flex-col sm:items-end">
                 <div className="flex items-center rounded-md border">
                   <button
@@ -163,7 +161,7 @@ export default function Cart() {
           ))}
         </section>
 
-        {/* Order summary */}
+    
         <aside className="rounded-xl border bg-white p-6">
           <h2 className="text-xl font-bold">Order Summary</h2>
 
@@ -188,7 +186,7 @@ export default function Cart() {
             </p>
           </div>
 
-          {/* Checkout navigation without asChild */}
+     
           <Link
             to="/checkout"
             className="mt-6 inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"

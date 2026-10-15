@@ -61,7 +61,7 @@ export default function ProductDetails() {
   const handleAddToCart = () => {
     setMessage("");
 
-    // Guests must log in before adding items.
+    
     if (!isAuthenticated) {
       navigate("/login", {
         state: {

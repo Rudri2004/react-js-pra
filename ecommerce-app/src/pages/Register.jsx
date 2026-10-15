@@ -102,7 +102,7 @@ export default function Register() {
             )}
           </div>
 
-          {/* Email */}
+       
           <div>
             <label
               htmlFor="email"
@@ -126,9 +126,7 @@ export default function Register() {
               </p>
             )}
           </div>
-
-          {/* Username */}
-          <div>
+   <div>
             <label
               htmlFor="username"
               className="mb-2 block text-sm font-medium text-gray-900"
@@ -152,7 +150,7 @@ export default function Register() {
             )}
           </div>
 
-          {/* Password */}
+          
           <div>
             <label
               htmlFor="password"
@@ -177,7 +175,7 @@ export default function Register() {
             )}
           </div>
 
-          {/* Confirm password */}
+        
           <div>
             <label
               htmlFor="confirmPassword"

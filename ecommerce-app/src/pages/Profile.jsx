@@ -23,7 +23,7 @@ export default function Profile() {
     navigate("/login", { replace: true });
   };
 
-  // Guests cannot access the profile page.
+ 
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }
@@ -58,9 +58,7 @@ export default function Profile() {
               </p>
             </div>
           </div>
-
-          {/* Account details */}
-          <div className="space-y-5 border-t border-gray-200 pt-6">
+    <div className="space-y-5 border-t border-gray-200 pt-6">
             <div>
               <p className="text-sm text-gray-500">Full Name</p>
               <p className="mt-1 font-medium text-gray-900">

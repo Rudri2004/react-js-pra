@@ -4,29 +4,47 @@ import {
   ShoppingCart,
   Store,
   UserRound,
-  PackageCheck,
+  Heart,
 } from "lucide-react";
 
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
+import useWishlistStore from "@/store/wishlistStore";
 
 export default function Navbar() {
   const navigate = useNavigate();
 
+  // Cart store
   const items = useCartStore((state) => state.items);
+  const clearCart = useCartStore((state) => state.clearCart);
+
+  // Wishlist store
+  const wishlist = useWishlistStore((state) => state.wishlist);
+  const clearWishlist = useWishlistStore(
+    (state) => state.clearWishlist
+  );
+
+  // Authentication store
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore(
     (state) => state.isAuthenticated
   );
   const logout = useAuthStore((state) => state.logout);
 
+  // Cart and wishlist counts
   const cartCount = items.reduce(
     (total, item) => total + item.quantity,
     0
   );
 
+  const wishlistCount = wishlist.length;
+
+  // Logout and clear cart and wishlist
   const handleLogout = () => {
+    clearCart();
+    clearWishlist();
     logout();
+
     navigate("/login", { replace: true });
   };
 
@@ -38,23 +56,37 @@ export default function Navbar() {
           className="flex items-center gap-2 text-2xl font-bold text-gray-900"
         >
           <Store size={28} />
-          ShopEase
+          E-Store
         </Link>
 
         <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+          {/* Wishlist */}
           <Link
-            to="/"
-            className="text-sm font-medium text-gray-700 hover:text-black sm:text-base"
+            to="/wishlist"
+            className="relative flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-black sm:text-base"
           >
-            Products
+            <Heart
+              size={21}
+              className={
+                wishlistCount > 0
+                  ? "fill-red-500 text-red-500"
+                  : ""
+              }
+            />
+
+            {wishlistCount > 0 && (
+              <span className="absolute -right-3 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
+                {wishlistCount}
+              </span>
+            )}
           </Link>
 
+          {/* Cart */}
           <Link
             to="/cart"
             className="relative flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-black sm:text-base"
           >
             <ShoppingCart size={23} />
-            Cart
 
             {cartCount > 0 && (
               <span className="absolute -right-3 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
@@ -63,31 +95,17 @@ export default function Navbar() {
             )}
           </Link>
 
+          {/* Authentication */}
           {isAuthenticated && user ? (
             <>
-              <Link
-                to="/orders"
-                className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-black sm:text-base"
-              >
-                <PackageCheck size={20} />
-                My Orders
-              </Link>
-
               <Link
                 to="/profile"
                 className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-black sm:text-base"
               >
                 <UserRound size={19} />
-                {user.name?.split(" ")[0] || "Profile"}
+               
               </Link>
 
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="text-sm font-medium text-red-600 hover:text-red-800 sm:text-base"
-              >
-                Logout
-              </button>
             </>
           ) : (
             <>
@@ -111,3 +129,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

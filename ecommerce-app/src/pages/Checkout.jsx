@@ -3,7 +3,13 @@ import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { CheckCircle2, ShoppingBag } from "lucide-react";
+import {
+  CheckCircle2,
+  ShoppingBag,
+  Banknote,
+  MapPin,
+  PackageCheck,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,12 +29,17 @@ export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Existing cart store
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
 
+  // Existing authentication store
   const user = useAuthStore((state) => state.user);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isAuthenticated = useAuthStore(
+    (state) => state.isAuthenticated
+  );
 
+  // Existing order store
   const addOrder = useOrderStore((state) => state.addOrder);
 
   const [order, setOrder] = useState(null);
@@ -50,6 +61,7 @@ export default function Checkout() {
     },
   });
 
+  // Guests must log in before checkout.
   if (!isAuthenticated) {
     return (
       <Navigate
@@ -63,10 +75,12 @@ export default function Checkout() {
     );
   }
 
+  // Don't allow checkout with an empty cart.
   if (items.length === 0 && !order) {
     return <Navigate to="/cart" replace />;
   }
 
+  // Keep the existing pricing rules.
   const subtotal = items.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -78,24 +92,36 @@ export default function Checkout() {
   function onSubmit(values) {
     const newOrder = {
       id: `SE-${Date.now()}`,
-      username: user.username,
+
+      // Keep the username for your existing order filtering.
+      username: user?.username || user?.email || "",
+
       customer: values,
-      items: items.map((item) => ({ ...item })),
+      items: [...items],
       subtotal,
       shipping,
       total,
+
+      // Cash on Delivery details
+      paymentMethod: "Cash on Delivery",
+      paymentStatus: "Pending - Cash on Delivery",
+
+      // Existing order status
       status: "Order Placed",
       createdAt: new Date().toISOString(),
     };
 
-    // Save the order persistently.
+    // Save the order to the existing Zustand order store.
     addOrder(newOrder);
 
-    // Display confirmation and empty the cart.
+    // Show the confirmation before navigating away.
     setOrder(newOrder);
+
+    // Empty the existing cart after the order is saved.
     clearCart();
   }
 
+  // Order confirmation screen
   if (order) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-12">
@@ -111,34 +137,64 @@ export default function Checkout() {
               Thank you for shopping with ShopEase.
             </p>
 
-            <div className="mx-auto mt-6 max-w-md rounded-lg bg-gray-50 p-5 text-left">
-              <p className="text-sm text-gray-500">Order number</p>
+            <div className="mx-auto mt-6 max-w-md rounded-xl bg-gray-50 p-5 text-left">
+              <p className="text-sm text-gray-500">
+                Order number
+              </p>
               <p className="mt-1 font-bold">{order.id}</p>
 
-              <p className="mt-4 text-sm text-gray-500">Order total</p>
+              <p className="mt-4 text-sm text-gray-500">
+                Order total
+              </p>
               <p className="mt-1 text-2xl font-bold">
                 ${order.total.toFixed(2)}
               </p>
 
-              <p className="mt-4 text-sm text-gray-500">Order status</p>
-              <p className="mt-1 font-medium">{order.status}</p>
+              <div className="mt-5 border-t pt-4">
+                <div className="flex items-center gap-3">
+                  <Banknote className="h-6 w-6 text-green-700" />
+                  <div>
+                    <p className="font-semibold">
+                      Cash on Delivery
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Pay when your order arrives.
+                    </p>
+                  </div>
+                </div>
 
-              <p className="mt-4 text-sm text-gray-500">Delivering to</p>
-              <p className="mt-1">
-                {order.customer.name}
-                <br />
-                {order.customer.address}, {order.customer.city}
-                <br />
-                {order.customer.state} - {order.customer.postalCode}
-              </p>
+                <p className="mt-3 text-sm text-amber-700">
+                  Payment is pending and will be collected on delivery.
+                </p>
+              </div>
+
+              <div className="mt-5 border-t pt-4">
+                <p className="text-sm text-gray-500">
+                  Delivering to
+                </p>
+                <p className="mt-1 font-medium">
+                  {order.customer.name}
+                </p>
+                <p className="mt-1 text-sm text-gray-600">
+                  {order.customer.address}, {order.customer.city}
+                  <br />
+                  {order.customer.state} - {order.customer.postalCode}
+                  <br />
+                  Phone: {order.customer.phone}
+                </p>
+              </div>
             </div>
 
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Button onClick={() => navigate("/orders")}>
+                <PackageCheck className="mr-2 h-4 w-4" />
                 View My Orders
               </Button>
 
-              <Button variant="outline" onClick={() => navigate("/")}>
+              <Button
+                variant="outline"
+                onClick={() => navigate("/")}
+              >
                 Continue Shopping
               </Button>
             </div>
@@ -153,7 +209,7 @@ export default function Checkout() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Checkout</h1>
         <p className="mt-2 text-gray-500">
-          Enter your shipping details to place your order.
+          Enter your shipping details and choose your payment method.
         </p>
       </div>
 
@@ -161,34 +217,55 @@ export default function Checkout() {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3"
       >
+        {/* Shipping information */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Shipping Information</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <MapPin className="h-5 w-5" />
+              Shipping Information
+            </CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-5">
             <div>
-              <label htmlFor="name" className="mb-1 block text-sm font-medium">
+              <label
+                htmlFor="name"
+                className="mb-1 block text-sm font-medium"
+              >
                 Full Name
               </label>
               <Input id="name" {...register("name")} />
               {errors.name && (
-                <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="email" className="mb-1 block text-sm font-medium">
+              <label
+                htmlFor="email"
+                className="mb-1 block text-sm font-medium"
+              >
                 Email Address
               </label>
-              <Input id="email" type="email" {...register("email")} />
+              <Input
+                id="email"
+                type="email"
+                {...register("email")}
+              />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="phone" className="mb-1 block text-sm font-medium">
+              <label
+                htmlFor="phone"
+                className="mb-1 block text-sm font-medium"
+              >
                 Phone Number
               </label>
               <Input
@@ -199,12 +276,17 @@ export default function Checkout() {
                 {...register("phone")}
               />
               {errors.phone && (
-                <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.phone.message}
+                </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="address" className="mb-1 block text-sm font-medium">
+              <label
+                htmlFor="address"
+                className="mb-1 block text-sm font-medium"
+              >
                 Street Address
               </label>
               <Input
@@ -213,28 +295,40 @@ export default function Checkout() {
                 {...register("address")}
               />
               {errors.address && (
-                <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.address.message}
+                </p>
               )}
             </div>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label htmlFor="city" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="city"
+                  className="mb-1 block text-sm font-medium"
+                >
                   City
                 </label>
                 <Input id="city" {...register("city")} />
                 {errors.city && (
-                  <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.city.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="state" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="state"
+                  className="mb-1 block text-sm font-medium"
+                >
                   State
                 </label>
                 <Input id="state" {...register("state")} />
                 {errors.state && (
-                  <p className="mt-1 text-sm text-red-600">{errors.state.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.state.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -262,6 +356,7 @@ export default function Checkout() {
           </CardContent>
         </Card>
 
+        {/* Order summary and payment method */}
         <Card>
           <CardHeader>
             <CardTitle>Order Summary</CardTitle>
@@ -302,13 +397,40 @@ export default function Checkout() {
               <div className="flex justify-between">
                 <span className="text-gray-500">Shipping</span>
                 <span>
-                  {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+                  {shipping === 0
+                    ? "Free"
+                    : `$${shipping.toFixed(2)}`}
                 </span>
               </div>
 
               <div className="flex justify-between border-t pt-3 text-base font-bold">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            {/* Cash on Delivery payment option */}
+            <div className="mt-6">
+              <h3 className="mb-3 font-semibold">
+                Payment Method
+              </h3>
+
+              <div className="rounded-xl border-2 border-green-600 bg-green-50 p-4">
+                <div className="flex items-start gap-3">
+                  <Banknote className="mt-1 h-6 w-6 shrink-0 text-green-700" />
+
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      Cash on Delivery
+                    </p>
+                    <p className="mt-1 text-sm text-gray-600">
+                      Pay in cash when your order is delivered.
+                    </p>
+                    <p className="mt-2 text-sm font-medium text-green-800">
+                      No online payment required.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -329,7 +451,7 @@ export default function Checkout() {
 
             <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
               <ShoppingBag className="h-4 w-4" />
-              Demo checkout — no payment is processed.
+              Pay when your order arrives.
             </div>
           </CardContent>
         </Card>

@@ -72,7 +72,7 @@ export default function Login() {
           </h1>
 
           <p className="mt-3 text-lg text-gray-500">
-            Sign in to your ShopEase account.
+            Sign in to your E-Store account.
           </p>
         </div>
 
@@ -161,7 +161,7 @@ export default function Login() {
         </form>
 
         <p className="mt-8 text-center text-base text-gray-600">
-          New to ShopEase?{" "}
+          New to E-Store?{" "}
           <Link
             to="/register"
             className="font-semibold text-gray-800 underline underline-offset-2 hover:text-black"

@@ -20,11 +20,17 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("all");
+
+  
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   const [sortBy, setSortBy] = useState("default");
   const [maxPrice, setMaxPrice] = useState(1000);
   const [appliedPrice, setAppliedPrice] = useState(1000);
-  const [minRating, setMinRating] = useState(0);
+
+
+  const [selectedRatings, setSelectedRatings] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -51,20 +57,47 @@ export default function Home() {
     loadProducts();
   }, []);
 
+
+  const handleCategoryChange = (item) => {
+    setSelectedCategories((previous) =>
+      previous.includes(item)
+        ? previous.filter((category) => category !== item)
+        : [...previous, item]
+    );
+  };
+
+
+  const handleRatingChange = (rating) => {
+    setSelectedRatings((previous) =>
+      previous.includes(rating)
+        ? previous.filter((item) => item !== rating)
+        : [...previous, rating]
+    );
+  };
+
   const filteredProducts = useMemo(() => {
     let result = products.filter((product) => {
       const matchesSearch = product.title
         .toLowerCase()
         .includes(search.trim().toLowerCase());
 
+
       const matchesCategory =
-        category === "all" || product.category === category;
+        selectedCategories.length === 0 ||
+        selectedCategories.includes(product.category);
 
       const matchesPrice =
         Number(product.price) <= appliedPrice;
 
+     
+      const minimumSelectedRating =
+        selectedRatings.length > 0
+          ? Math.min(...selectedRatings)
+          : 0;
+
       const matchesRating =
-        Number(product.rating?.rate ?? 0) >= minRating;
+        Number(product.rating?.rate ?? 0) >=
+        minimumSelectedRating;
 
       return (
         matchesSearch &&
@@ -88,32 +121,28 @@ export default function Home() {
   }, [
     products,
     search,
-    category,
+    selectedCategories,
     sortBy,
     appliedPrice,
-    minRating,
+    selectedRatings,
   ]);
 
   const resetFilters = () => {
     setSearch("");
-    setCategory("all");
+    setSelectedCategories([]);
     setSortBy("default");
     setMaxPrice(1000);
     setAppliedPrice(1000);
-    setMinRating(0);
+    setSelectedRatings([]);
   };
 
-  
-return (
-  
-  <main className="min-h-screen bg-gray-50">
-    <div className="w-full px-8 py-6 sm:px-10 lg:px-12 xl:px-16">
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[300px_minmax(0,1fr)] xl:gap-8">
-
-
-     
-   
-       <aside className="sticky top-24 self-start max-h-[calc(100vh-7rem)] w-full overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white p-5 shadow-sm">            <div className="mb-5 flex items-center gap-2">
+  return (
+    <main className="min-h-screen bg-gray-50">
+      <div className="w-full px-8 py-6 sm:px-10 lg:px-12 xl:px-16">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[300px_minmax(0,1fr)] xl:gap-8">
+      
+          <aside className="sticky top-24 self-start max-h-[calc(100vh-7rem)] w-full overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div className="mb-5 flex items-center gap-2">
               <SlidersHorizontal className="h-5 w-5" />
               <h2 className="text-xl font-bold">Filters</h2>
             </div>
@@ -127,7 +156,7 @@ return (
               Clear All
             </Button>
 
-        
+      
             <div className="mt-8">
               <h3 className="mb-4 text-lg font-semibold">
                 Categories
@@ -141,12 +170,8 @@ return (
                   >
                     <input
                       type="checkbox"
-                      checked={category === item}
-                      onChange={() =>
-                        setCategory(
-                          category === item ? "all" : item
-                        )
-                      }
+                      checked={selectedCategories.includes(item)}
+                      onChange={() => handleCategoryChange(item)}
                       className="h-4 w-4 accent-black"
                     />
                     <span>{item}</span>
@@ -157,7 +182,7 @@ return (
 
             <div className="my-7 border-t border-gray-200" />
 
-           
+      
             <div>
               <h3 className="mb-4 text-lg font-semibold">
                 Price Range
@@ -193,7 +218,7 @@ return (
 
             <div className="my-7 border-t border-gray-200" />
 
-         
+        
             <div>
               <h3 className="mb-4 text-lg font-semibold">
                 Minimum Rating
@@ -207,12 +232,8 @@ return (
                   >
                     <input
                       type="checkbox"
-                      checked={minRating === rating}
-                      onChange={() =>
-                        setMinRating(
-                          minRating === rating ? 0 : rating
-                        )
-                      }
+                      checked={selectedRatings.includes(rating)}
+                      onChange={() => handleRatingChange(rating)}
                       className="h-4 w-4 accent-black"
                     />
 
@@ -230,9 +251,8 @@ return (
             </div>
           </aside>
 
-        
+         
           <section className="min-w-0">
-          
             <div className="mb-7 flex flex-col gap-4 sm:flex-row">
               <div className="relative min-w-0 flex-1">
                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
@@ -289,7 +309,6 @@ return (
               </Button>
             </div>
 
-          
             {loading && (
               <div
                 role="status"
@@ -301,13 +320,14 @@ return (
                     className="h-[430px] animate-pulse rounded-2xl bg-gray-200"
                   />
                 ))}
+
                 <span className="sr-only">
                   Loading products
                 </span>
               </div>
             )}
 
-    
+         
             {!loading && error && (
               <div className="rounded-xl border border-red-200 bg-red-50 p-8 text-center">
                 <p className="font-semibold text-red-700">
@@ -324,7 +344,7 @@ return (
               </div>
             )}
 
-           
+            
             {!loading &&
               !error &&
               filteredProducts.length === 0 && (
@@ -347,7 +367,6 @@ return (
                 </div>
               )}
 
-           
             {!loading &&
               !error &&
               filteredProducts.length > 0 && (

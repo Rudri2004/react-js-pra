@@ -32,12 +32,10 @@ export default function Checkout() {
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
 
- 
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore(
     (state) => state.isAuthenticated
   );
-
 
   const addOrder = useOrderStore((state) => state.addOrder);
 
@@ -60,7 +58,6 @@ export default function Checkout() {
     },
   });
 
-  
   if (!isAuthenticated) {
     return (
       <Navigate
@@ -74,12 +71,10 @@ export default function Checkout() {
     );
   }
 
- 
   if (items.length === 0 && !order) {
     return <Navigate to="/cart" replace />;
   }
 
-  
   const subtotal = items.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -91,36 +86,23 @@ export default function Checkout() {
   function onSubmit(values) {
     const newOrder = {
       id: `SE-${Date.now()}`,
-
-     
       username: user?.username || user?.email || "",
-
       customer: values,
       items: [...items],
       subtotal,
       shipping,
       total,
-
-      
       paymentMethod: "Cash on Delivery",
       paymentStatus: "Pending - Cash on Delivery",
-
-      
       status: "Order Placed",
       createdAt: new Date().toISOString(),
     };
 
-    
     addOrder(newOrder);
-
-   
     setOrder(newOrder);
-
-   
     clearCart();
   }
 
-  
   if (order) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-12">
@@ -133,18 +115,14 @@ export default function Checkout() {
             </h1>
 
             <p className="mt-3 text-gray-500">
-              Thank you for shopping with ShopEase.
+              Thank you for shopping with E-Store.
             </p>
 
             <div className="mx-auto mt-6 max-w-md rounded-xl bg-gray-50 p-5 text-left">
-              <p className="text-sm text-gray-500">
-                Order number
-              </p>
+              <p className="text-sm text-gray-500">Order number</p>
               <p className="mt-1 font-bold">{order.id}</p>
 
-              <p className="mt-4 text-sm text-gray-500">
-                Order total
-              </p>
+              <p className="mt-4 text-sm text-gray-500">Order total</p>
               <p className="mt-1 text-2xl font-bold">
                 ${order.total.toFixed(2)}
               </p>
@@ -153,9 +131,7 @@ export default function Checkout() {
                 <div className="flex items-center gap-3">
                   <Banknote className="h-6 w-6 text-green-700" />
                   <div>
-                    <p className="font-semibold">
-                      Cash on Delivery
-                    </p>
+                    <p className="font-semibold">Cash on Delivery</p>
                     <p className="text-sm text-gray-500">
                       Pay when your order arrives.
                     </p>
@@ -168,9 +144,7 @@ export default function Checkout() {
               </div>
 
               <div className="mt-5 border-t pt-4">
-                <p className="text-sm text-gray-500">
-                  Delivering to
-                </p>
+                <p className="text-sm text-gray-500">Delivering to</p>
                 <p className="mt-1 font-medium">
                   {order.customer.name}
                 </p>
@@ -203,6 +177,11 @@ export default function Checkout() {
     );
   }
 
+  const phoneField = register("phone");
+  const cityField = register("city");
+  const stateField = register("state");
+  const postalCodeField = register("postalCode");
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8">
@@ -216,7 +195,6 @@ export default function Checkout() {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3"
       >
-    
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -227,13 +205,15 @@ export default function Checkout() {
 
           <CardContent className="space-y-5">
             <div>
-              <label
-                htmlFor="name"
-                className="mb-1 block text-sm font-medium"
-              >
+              <label htmlFor="name" className="mb-1 block text-sm font-medium">
                 Full Name
               </label>
-              <Input id="name" {...register("name")} />
+              <Input
+                id="name"
+                {...register("name")}
+                readOnly
+                className="bg-gray-100"
+              />
               {errors.name && (
                 <p className="mt-1 text-sm text-red-600">
                   {errors.name.message}
@@ -242,16 +222,15 @@ export default function Checkout() {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="mb-1 block text-sm font-medium"
-              >
+              <label htmlFor="email" className="mb-1 block text-sm font-medium">
                 Email Address
               </label>
               <Input
                 id="email"
                 type="email"
                 {...register("email")}
+                readOnly
+                className="bg-gray-100"
               />
               {errors.email && (
                 <p className="mt-1 text-sm text-red-600">
@@ -261,18 +240,23 @@ export default function Checkout() {
             </div>
 
             <div>
-              <label
-                htmlFor="phone"
-                className="mb-1 block text-sm font-medium"
-              >
+              <label htmlFor="phone" className="mb-1 block text-sm font-medium">
                 Phone Number
               </label>
               <Input
                 id="phone"
                 type="tel"
+                inputMode="numeric"
                 maxLength={10}
                 placeholder="10-digit phone number"
-                {...register("phone")}
+                {...phoneField}
+                onChange={(event) => {
+                  event.target.value = event.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+
+                  phoneField.onChange(event);
+                }}
               />
               {errors.phone && (
                 <p className="mt-1 text-sm text-red-600">
@@ -282,10 +266,7 @@ export default function Checkout() {
             </div>
 
             <div>
-              <label
-                htmlFor="address"
-                className="mb-1 block text-sm font-medium"
-              >
+              <label htmlFor="address" className="mb-1 block text-sm font-medium">
                 Street Address
               </label>
               <Input
@@ -302,13 +283,21 @@ export default function Checkout() {
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label
-                  htmlFor="city"
-                  className="mb-1 block text-sm font-medium"
-                >
+                <label htmlFor="city" className="mb-1 block text-sm font-medium">
                   City
                 </label>
-                <Input id="city" {...register("city")} />
+                <Input
+                  id="city"
+                  {...cityField}
+                  onChange={(event) => {
+                    event.target.value = event.target.value.replace(
+                      /[^a-zA-Z\s]/g,
+                      ""
+                    );
+
+                    cityField.onChange(event);
+                  }}
+                />
                 {errors.city && (
                   <p className="mt-1 text-sm text-red-600">
                     {errors.city.message}
@@ -317,13 +306,21 @@ export default function Checkout() {
               </div>
 
               <div>
-                <label
-                  htmlFor="state"
-                  className="mb-1 block text-sm font-medium"
-                >
+                <label htmlFor="state" className="mb-1 block text-sm font-medium">
                   State
                 </label>
-                <Input id="state" {...register("state")} />
+                <Input
+                  id="state"
+                  {...stateField}
+                  onChange={(event) => {
+                    event.target.value = event.target.value.replace(
+                      /[^a-zA-Z\s]/g,
+                      ""
+                    );
+
+                    stateField.onChange(event);
+                  }}
+                />
                 {errors.state && (
                   <p className="mt-1 text-sm text-red-600">
                     {errors.state.message}
@@ -344,7 +341,14 @@ export default function Checkout() {
                 inputMode="numeric"
                 maxLength={6}
                 placeholder="6-digit PIN code"
-                {...register("postalCode")}
+                {...postalCodeField}
+                onChange={(event) => {
+                  event.target.value = event.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 6);
+
+                  postalCodeField.onChange(event);
+                }}
               />
               {errors.postalCode && (
                 <p className="mt-1 text-sm text-red-600">
@@ -355,7 +359,6 @@ export default function Checkout() {
           </CardContent>
         </Card>
 
-        
         <Card>
           <CardHeader>
             <CardTitle>Order Summary</CardTitle>
@@ -396,9 +399,7 @@ export default function Checkout() {
               <div className="flex justify-between">
                 <span className="text-gray-500">Shipping</span>
                 <span>
-                  {shipping === 0
-                    ? "Free"
-                    : `$${shipping.toFixed(2)}`}
+                  {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
                 </span>
               </div>
 
@@ -408,11 +409,8 @@ export default function Checkout() {
               </div>
             </div>
 
-            {/* Cash on Delivery payment option */}
             <div className="mt-6">
-              <h3 className="mb-3 font-semibold">
-                Payment Method
-              </h3>
+              <h3 className="mb-3 font-semibold">Payment Method</h3>
 
               <div className="rounded-xl border-2 border-green-600 bg-green-50 p-4">
                 <div className="flex items-start gap-3">

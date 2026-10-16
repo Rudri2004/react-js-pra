@@ -5,6 +5,7 @@ import {
   LogOut,
   ShoppingBag,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import useAuthStore from "@/store/authStore";
 import { Button } from "@/components/ui/button";
@@ -19,11 +20,18 @@ export default function Profile() {
   const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to logout?"
+    );
+
+    if (!confirmed) return;
+
     logout();
+
+    toast.success("Logged out successfully");
     navigate("/login", { replace: true });
   };
 
- 
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }
@@ -37,7 +45,7 @@ export default function Profile() {
           </h1>
 
           <p className="mt-2 text-gray-500">
-            View and manage your ShopEase account.
+            View and manage your E-Store account.
           </p>
         </div>
 
@@ -54,11 +62,13 @@ export default function Profile() {
               </h2>
 
               <p className="text-sm text-gray-500">
-                ShopEase Customer
+                E-Store Customer
               </p>
             </div>
           </div>
-    <div className="space-y-5 border-t border-gray-200 pt-6">
+
+          {/* Profile details */}
+          <div className="space-y-5 border-t border-gray-200 pt-6">
             <div>
               <p className="text-sm text-gray-500">Full Name</p>
               <p className="mt-1 font-medium text-gray-900">
@@ -67,7 +77,9 @@ export default function Profile() {
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">Email Address</p>
+              <p className="text-sm text-gray-500">
+                Email Address
+              </p>
               <p className="mt-1 break-all font-medium text-gray-900">
                 {user.email}
               </p>

@@ -1,4 +1,3 @@
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -55,7 +54,7 @@ const useAuthStore = create(
         };
       },
 
-      // Login using the registered username and password
+
       login: (username, password) => {
         const account = get().registeredUsers.find(
           (user) =>
@@ -71,7 +70,7 @@ const useAuthStore = create(
           };
         }
 
-        // Do not expose the password in the profile
+       
         const { password: _password, ...safeUser } = account;
 
         set({
@@ -85,15 +84,15 @@ const useAuthStore = create(
         };
       },
 
-      // Logout and clear cart and wishlist
+     
       logout: () => {
         // Clear persisted cart
         useCartStore.getState().clearCart();
 
-        // Clear persisted wishlist
+       
         useWishlistStore.getState().clearWishlist();
 
-        // Clear authentication only
+     
         set({
           user: null,
           isAuthenticated: false,

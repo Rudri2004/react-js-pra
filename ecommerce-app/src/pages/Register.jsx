@@ -72,7 +72,7 @@ export default function Register() {
           </h1>
 
           <p className="mt-3 text-lg text-gray-500">
-            Join ShopEase and start shopping.
+            Join E-Store and start shopping.
           </p>
         </div>
 

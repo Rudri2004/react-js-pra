@@ -1,6 +1,6 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { Star, Heart, ShoppingCart } from "lucide-react";
+import { Star, Heart, ShoppingCart, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,11 @@ export default function ProductCard({ product }) {
     (state) => state.toggleWishlist
   );
 
+  const cartItems = useCartStore((state) => state.items);
   const addToCart = useCartStore((state) => state.addToCart);
+  const updateQuantity = useCartStore(
+    (state) => state.updateQuantity
+  );
 
   const isAuthenticated = useAuthStore(
     (state) => state.isAuthenticated
@@ -31,6 +35,13 @@ export default function ProductCard({ product }) {
   const isWishlisted = wishlist.some(
     (item) => item.id === product.id
   );
+
+  const cartItem = cartItems.find(
+    (item) => item.id === product.id
+  );
+
+  const quantity = cartItem?.quantity ?? 0;
+  
 
   const handleWishlist = () => {
     toggleWishlist(product);
@@ -51,6 +62,27 @@ export default function ProductCard({ product }) {
 
     addToCart(product, 1);
     toast.success("Product added to cart!");
+  };
+
+  const handleIncrease = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    if (cartItem) {
+      updateQuantity(product.id, quantity + 1);
+    } else {
+      addToCart(product, 1);
+    }
+  };
+  
+  const handleDecrease = () => {
+    if (quantity > 0) {
+      updateQuantity(product.id, quantity - 1);
+     
+
+    }
   };
 
   return (
@@ -96,7 +128,7 @@ export default function ProductCard({ product }) {
         </Button>
       </div>
 
-   
+
       <CardContent className="flex flex-1 flex-col gap-3 p-4">
         <span className="w-fit max-w-full truncate rounded-full bg-gray-100 px-3 py-1 text-xs capitalize text-gray-700">
           {product.category}
@@ -136,16 +168,59 @@ export default function ProductCard({ product }) {
         </p>
       </CardContent>
 
-   
+
       <CardFooter className="mt-auto p-4 pt-0">
-        <Button
-          type="button"
-          onClick={handleAddToCart}
-          className="h-11 w-full bg-gray-900 text-white hover:bg-gray-800"
-        >
-          <ShoppingCart className="mr-2 h-5 w-5" />
-          {isAuthenticated ? "Add to Cart" : "Login to Shop"}
-        </Button>
+        {!isAuthenticated ? (
+          <Button
+            type="button"
+            onClick={handleAddToCart}
+            className="h-11 w-full bg-gray-900 text-white hover:bg-gray-800"
+          >
+            <ShoppingCart className="mr-2 h-5 w-5" />
+            Login to Shop
+          </Button>
+        ) : quantity === 0 ? (
+          <Button
+            type="button"
+            onClick={handleAddToCart}
+            className="h-11 w-full bg-gray-900 text-white hover:bg-gray-800"
+          >
+            <ShoppingCart className="mr-2 h-5 w-5" />
+            Add to Cart
+          </Button>
+        ) : (
+          <div className="flex h-11 w-full items-center justify-between overflow-hidden rounded-lg border border-gray-300">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={`Decrease quantity of ${product.title}`}
+              onClick={handleDecrease}
+              className="h-full rounded-none hover:bg-gray-100"
+            >
+              <Minus className="h-4 w-4" />
+            </Button>
+
+            <span
+              aria-live="polite"
+              aria-label={`Quantity: ${quantity}`}
+              className="min-w-8 text-center font-semibold text-gray-900"
+            >
+              {quantity}
+            </span>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={`Increase quantity of ${product.title}`}
+              onClick={handleIncrease}
+              className="h-full rounded-none hover:bg-gray-100"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </CardFooter>
     </Card>
   );

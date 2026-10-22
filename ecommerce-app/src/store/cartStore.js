@@ -7,7 +7,7 @@ const useCartStore = create(
     (set) => ({
       items: [],
 
-      // Add a product or increase its existing quantity
+     
       addToCart: (product, quantity = 1) =>
         set((state) => {
           const existingItem = state.items.find(
@@ -38,7 +38,7 @@ const useCartStore = create(
           };
         }),
 
-      // Remove a product completely
+  
       removeFromCart: (productId) =>
         set((state) => ({
           items: state.items.filter(
@@ -46,8 +46,7 @@ const useCartStore = create(
           ),
         })),
 
-      // Increase or decrease product quantity
-      // Quantity below 1 removes the product
+     
       updateQuantity: (productId, quantity) =>
         set((state) => ({
           items:
@@ -62,7 +61,7 @@ const useCartStore = create(
                 ),
         })),
 
-      // Clear all cart items
+  
       clearCart: () => set({ items: [] }),
     }),
     {

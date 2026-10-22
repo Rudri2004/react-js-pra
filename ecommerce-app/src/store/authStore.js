@@ -7,14 +7,14 @@ import useWishlistStore from "@/store/wishlistStore";
 const useAuthStore = create(
   persist(
     (set, get) => ({
-      // All accounts registered in this demo
+     
       registeredUsers: [],
 
-      // Currently logged-in user
+      
       user: null,
       isAuthenticated: false,
 
-      // Register a new account
+  
       registerUser: (newUser) => {
         const users = get().registeredUsers;
 
@@ -86,7 +86,7 @@ const useAuthStore = create(
 
      
       logout: () => {
-        // Clear persisted cart
+       
         useCartStore.getState().clearCart();
 
        

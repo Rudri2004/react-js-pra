@@ -7,7 +7,6 @@ const useWishlistStore = create(
     (set) => ({
       wishlist: [],
 
-      // Add product to wishlist
       addToWishlist: (product) =>
         set((state) => {
           const alreadyExists = state.wishlist.some(
@@ -23,7 +22,7 @@ const useWishlistStore = create(
           };
         }),
 
-      // Remove product from wishlist
+     
       removeFromWishlist: (productId) =>
         set((state) => ({
           wishlist: state.wishlist.filter(
@@ -31,7 +30,7 @@ const useWishlistStore = create(
           ),
         })),
 
-      // Add or remove product from wishlist
+    
       toggleWishlist: (product) =>
         set((state) => {
           const alreadyExists = state.wishlist.some(
@@ -47,7 +46,6 @@ const useWishlistStore = create(
           };
         }),
 
-      // Empty the entire wishlist
       clearWishlist: () => set({ wishlist: [] }),
     }),
     {

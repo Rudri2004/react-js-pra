@@ -7,13 +7,13 @@ const useOrderStore = create(
     (set) => ({
       orders: [],
 
-      // Add a new order
+    
       addOrder: (order) =>
         set((state) => ({
           orders: [order, ...state.orders],
         })),
 
-      // Cancel an order
+      
       cancelOrder: (orderId, username) =>
         set((state) => ({
           orders: state.orders.map((order) => {
@@ -37,7 +37,7 @@ const useOrderStore = create(
           }),
         })),
 
-      // Update order tracking status
+   
       updateOrderStatus: (orderId, username, newStatus) =>
         set((state) => ({
           orders: state.orders.map((order) => {
